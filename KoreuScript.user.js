@@ -182,34 +182,24 @@ Thème : \
   // ==========================
 
 
-  // Ajoute le lien du message si l'option est coché
-  
-
+  // Ajoute le lien du message si l'option est cochée
 
   if (CheckMessage) {
-    var url = window.location.href;
-    if (window.location.href.indexOf("news/comment_reply.php") > -1) {
-      var com_itemid = getURLParameter(url, 'com_itemid');
-      var com_id = getURLParameter(url, 'com_id');
+    var url = new URL(window.location.href);
+    var urlParams = new Map(url.searchParams);
+    if (url.pathname == "/modules/news/comment_reply.php") {
+      var com_itemid = urlParams.get('com_itemid');
+      var com_id = urlParams.get('com_id');
       document.getElementById("com_text").value += "[url=https://www.koreus.com/modules/news/article" + com_itemid + ".html#comment" + com_id + "]Message[/url]";
-      //document.getElementById("com_text").value += "[url=#comment"+com_id+"]Message[/url]";
-    } else if (window.location.href.indexOf("/newbb/reply.php") > -1) {
-      var topic_id = getURLParameter(url, 'topic_id');
-      var post_id = getURLParameter(url, 'post_id');
-      var page_id = getURLParameter(url, 'start');
-      if (page_id > 0)
-        document.getElementById("message").value += "[url=https://www.koreus.com/modules/newbb/topic" + topic_id + "-" + page_id + ".html#forumpost" + post_id + "]Message[/url]";
-      else
-        document.getElementById("message").value += "[url=https://www.koreus.com/modules/newbb/topic" + topic_id + ".html#forumpost" + post_id + "]Message[/url]";
+    } else if (url.pathname == "/modules/newbb/reply.php") {
+      var topic_id = urlParams.get('topic_id');
+      var post_id = urlParams.get('post_id');
+      var page_id = urlParams.get('start');
+      document.getElementById("message").value += "[url=https://www.koreus.com/modules/newbb/topic" + topic_id + ((page_id > 0) ? "-" + page_id : "") + ".html#forumpost" + post_id + "]Message[/url]";
     }
   }
-  
-  
-  function getURLParameter(url, name) {
-    return (RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1];
-  }
-  //=====================================
 
+  //=====================================
 
 
   // Ajoute les boutons de défilement si l'option est coché
