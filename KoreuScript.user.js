@@ -11,10 +11,7 @@
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_setValue
-// @grant        GM_notification
 // @grant        GM_xmlhttpRequest
-// @grant        GM_getResourceText
-// @grant        GM_getResourceURL
 // @version      0.9.3
 // @icon         https://k.img.mu/qTOXTs.png
 // @copyright    2016+, Benissou
