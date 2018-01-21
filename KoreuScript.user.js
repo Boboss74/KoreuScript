@@ -39,26 +39,19 @@ var emo_smile = [
 (function() {
   'use strict';
 
-  GM_addStyle('	[type="checkbox"].CheckStyle:not(:checked),\
-[type="checkbox"].CheckStyle:checked {position: absolute;left: -9999px;}\
-[type="checkbox"].CheckStyle:not(:checked) + label,\
-[type="checkbox"].CheckStyle:checked + label {position: relative;padding-left: 55px;cursor: pointer;}\
-[type="checkbox"].CheckStyle:not(:checked) + label:before,\
-[type="checkbox"].CheckStyle:checked + label:before,\
-[type="checkbox"].CheckStyle:not(:checked) + label:after,\
-[type="checkbox"].CheckStyle:checked + label:after {content: "";position: absolute;}\
-[type="checkbox"].CheckStyle:not(:checked) + label:before,\
-[type="checkbox"].CheckStyle:checked + label:before {border: 1px solid #777;left:0; top: -3px;width: 45px; height: 20px;background: #DDDDDD;border-radius: 15px;-webkit-transition: background-color .2s;-moz-transition: background-color .2s;-ms-transition: background-color .2s;transition: background-color .2s;}\
-[type="checkbox"].CheckStyle:not(:checked) + label:after,\
-[type="checkbox"].CheckStyle:checked + label:after {border: 1px solid #777;width: 10px; height: 10px;-webkit-transition: all .2s;-moz-transition: all .2s;-ms-transition: all .2s;transition: all .2s;border-radius: 50%;background: #461B1B;top: 2px; left: 5px;}\
-[type="checkbox"].CheckStyle:checked + label:before {background:#34495E; }\
-[type="checkbox"].CheckStyle:checked + label:after {background: #39D2B4;top: 2px; left: 30px;}\
-[type="checkbox"].CheckStyle:checked + label .ui,\
-[type="checkbox"].CheckStyle:not(:checked) + label .ui:before,\
-[type="checkbox"].CheckStyle:checked + label .ui:after {position: absolute;left: 6px;width: 45px;border-radius: 15px;font-size: 14px;font-weight: bold;line-height: 22px;-webkit-transition: all .2s;-moz-transition: all .2s;-ms-transition: all .2s;transition: all .2s;}\
-[type="checkbox"].CheckStyle:not(:checked) + label .ui:before {top:-4px;content: "✖";left: 28px}\
-[type="checkbox"].CheckStyle:checked + label .ui:after {top:-4px;content: "✓";color: #39D2B4;\
-}}');
+  GM_addStyle('\
+  .checkboxks {display: none;}\
+  .checkboxks+label { position: relative; padding-left: 55px; cursor: pointer; }\
+  	.checkboxks+label::before, .checkboxks+label::after { content: ""; position: absolute; border: 1px solid #777; transition: background-color .2s; }\
+  	.checkboxks+label::before { left: 0; top: -3px; width: 45px; height: 20px; background: #DDDDDD; border-radius: 15px; }\
+  	.checkboxks+label::after { left: 5px; top: 2px; width: 10px; height: 10px; background: #461B1B; border-radius: 50%; }\
+  .checkboxks:checked+label::before {background: #34495E;}\
+  .checkboxks:checked+label::after { background: #39D2B4; left: 30px; }\
+  .checkboxks+label .ui { position: absolute; left: 30px; font-size: 14px; font-weight: bold; transition: all .2s; }\
+  .checkboxks:checked+label .ui {left: 6px;}\
+  .checkboxks+label .ui::after { content: "✖"; left: 28px; }\
+  .checkboxks:checked+label .ui::after { content: "✓"; color: #39D2B4; }\
+');
 
   GM_addStyle('.top {position: fixed;width: auto;top: 0;left: 0;right: 0;z-index: 1000;font-size: .9375rem;}');
 
@@ -118,11 +111,11 @@ Thème : \
 <option value="Dark">Koreus Dark</option>\
 </select> \
 </div>\
-<p style="padding-left:5px"><input name="ReponseCheck" id="Check_R_ID" class="CheckStyle" type="checkbox"><label  name="ReponseCheck" for="Check_R_ID"><span class="ui"></span>Lien Message</label></p>\
-<p style="padding-left:5px"><input name="PageCheck" class="CheckStyle" id="Check_P_ID" type="checkbox"><label  name="PageCheck" for="Check_P_ID"><span class="ui"></span>Défilement</label></p>\
-<p style="padding-left:5px"><input name="RapideStyleCheck" class="CheckStyle" id="Check_RR_ID" type="checkbox"><label  name="RapideStyleCheck" for="Check_RR_ID"><span class="ui"></span>Editeur Rapide</label></p>\
-<p style="padding-left:5px"><input name="EmojiCheck" class="CheckStyle" id="Check_Emoji_ID" type="checkbox"><label  name="EmojiCheck" for="Check_Emoji_ID"><span class="ui"></span>Emoji</label></p>\
-<p style="padding-left:5px"><input name="VoteColor" class="CheckStyle" id="Check_VoteColor_ID" type="checkbox"><label  name="VoteColor" for="Check_VoteColor_ID"><span class="ui"></span>Couleur Vote</label></p>\
+<p style="padding-left:5px"><input name="ReponseCheck" id="Check_R_ID" class="checkboxks" type="checkbox"><label  name="ReponseCheck" for="Check_R_ID"><span class="ui"></span>Lien Message</label></p>\
+<p style="padding-left:5px"><input name="PageCheck" class="checkboxks" id="Check_P_ID" type="checkbox"><label  name="PageCheck" for="Check_P_ID"><span class="ui"></span>Défilement</label></p>\
+<p style="padding-left:5px"><input name="RapideStyleCheck" class="checkboxks" id="Check_RR_ID" type="checkbox"><label  name="RapideStyleCheck" for="Check_RR_ID"><span class="ui"></span>Editeur Rapide</label></p>\
+<p style="padding-left:5px"><input name="EmojiCheck" class="checkboxks" id="Check_Emoji_ID" type="checkbox"><label  name="EmojiCheck" for="Check_Emoji_ID"><span class="ui"></span>Emoji</label></p>\
+<p style="padding-left:5px"><input name="VoteColor" class="checkboxks" id="Check_VoteColor_ID" type="checkbox"><label  name="VoteColor" for="Check_VoteColor_ID"><span class="ui"></span>Couleur Vote</label></p>\
 </div>');
   // ==============================
 
