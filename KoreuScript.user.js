@@ -11,7 +11,6 @@
 // @include      https://www.koreus.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.8.0/jquery.modal.min.js
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_setValue
