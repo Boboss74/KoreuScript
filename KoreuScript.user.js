@@ -1,21 +1,23 @@
 // ==UserScript==
 // @name         KoreuScript
+// @namespace    Benissou/KoreuScript
+// @version      0.9.3
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
+// @homepage     https://www.koreus.com/modules/newbb/topic165924.html
+// @icon         https://k.img.mu/qTOXTs.png
+// @updateURL    https://openuserjs.org/meta/Benissou/KoreuScript.meta.js
 // @include      http://www.koreus.com/*
 // @include      https://www.koreus.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.8.0/jquery.modal.min.js
-// @updateURL    https://openuserjs.org/meta/Benissou/KoreuScript.meta.js
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
-// @version      0.9.3
-// @icon         https://k.img.mu/qTOXTs.png
 // @copyright    2016+, Benissou
-// @license MIT
+// @license      MIT
 // ==/UserScript==
 
 // ==OpenUserJS==
