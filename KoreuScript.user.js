@@ -70,7 +70,7 @@ var emo_smile = [
 
 
   // Initialise les variable permanentes
-  var ThemeStyle = "Defaut"
+  var ThemeStyle = "Defaut";
   ThemeStyle = GM_getValue('ThemeSave');
 
   var CheckMessage = false;
@@ -191,16 +191,17 @@ Thème : \
 
 
   // Ajoute le lien du message si l'option est coché
+  
+
 
   if (CheckMessage) {
+    var url = window.location.href;
     if (window.location.href.indexOf("news/comment_reply.php") > -1) {
-      var url = window.location.href;
       var com_itemid = getURLParameter(url, 'com_itemid');
       var com_id = getURLParameter(url, 'com_id');
       document.getElementById("com_text").value += "[url=https://www.koreus.com/modules/news/article" + com_itemid + ".html#comment" + com_id + "]Message[/url]";
       //document.getElementById("com_text").value += "[url=#comment"+com_id+"]Message[/url]";
     } else if (window.location.href.indexOf("/newbb/reply.php") > -1) {
-      var url = window.location.href;
       var topic_id = getURLParameter(url, 'topic_id');
       var post_id = getURLParameter(url, 'post_id');
       var page_id = getURLParameter(url, 'start');
@@ -209,10 +210,11 @@ Thème : \
       else
         document.getElementById("message").value += "[url=https://www.koreus.com/modules/newbb/topic" + topic_id + ".html#forumpost" + post_id + "]Message[/url]";
     }
-
-    function getURLParameter(url, name) {
-      return (RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1];
-    }
+  }
+  
+  
+  function getURLParameter(url, name) {
+    return (RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1];
   }
   //=====================================
 
@@ -486,7 +488,8 @@ padding-left:200px;\
 
       //ajout du style sur les colones du tableau
       var tds1 = element1.getElementsByTagName("td");
-      for (var i = 0; i < tds1.length; i++) {
+      var i;
+      for (i = 0; i < tds1.length; i++) {
         tds1[i].style.width = "50%";
         //tds1[i].style.border="solid 1px rgba(0,0,0,0.3)";
         tds1[i].style.padding = "5px";
@@ -496,7 +499,7 @@ padding-left:200px;\
       }
 
       var tds2 = element2.getElementsByTagName("td");
-      for (var i = 0; i < tds2.length; i++) {
+      for (i = 0; i < tds2.length; i++) {
         tds2[i].style.width = "50%";
         //tds1[i].style.textAlign="center";
         //tds2[i].style.border="solid 1px rgba(0,0,0,0.3)";
@@ -526,14 +529,15 @@ padding-left:200px;\
   var ArrowUp2 = document.getElementsByClassName("arrow-up2");
   var PID;
   var VoteID;
+  var Pourcent;
 
-  for (i = 0; i < ArrowUp.length; i++) {
-    PID = ArrowUp[i].getAttribute('id').replace('up', '');
+  for (var j = 0; j < ArrowUp.length; j++) {
+    PID = ArrowUp[j].getAttribute('id').replace('up', '');
     VoteID = document.getElementById("vote" + PID);
     VoteID.style.cursor = "pointer";
 
     if (VoteColor) {
-      var Pourcent = VoteID.getAttribute("title").slice(VoteID.getAttribute("title").indexOf("(") + 1, VoteID.getAttribute("title").indexOf("%"));
+      Pourcent = VoteID.getAttribute("title").slice(VoteID.getAttribute("title").indexOf("(") + 1, VoteID.getAttribute("title").indexOf("%"));
       if (Pourcent < 50) {
         VoteID.style.color = "#ff0000";
       }
@@ -548,17 +552,16 @@ padding-left:200px;\
       HideVote();
     });
 
-    ArrowUp[i].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
-
+    ArrowUp[j].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
   }
 
-  for (i = 0; i < ArrowUp2.length; i++) {
-    PID = ArrowUp2[i].getAttribute('id').replace('up', '');
+  for (var k = 0; k < ArrowUp2.length; k++) {
+    PID = ArrowUp2[k].getAttribute('id').replace('up', '');
     VoteID = document.getElementById("vote" + PID);
     VoteID.style.cursor = "pointer";
 
     if (VoteColor) {
-      var Pourcent = VoteID.getAttribute("title").slice(VoteID.getAttribute("title").indexOf("(") + 1, VoteID.getAttribute("title").indexOf("%"));
+      Pourcent = VoteID.getAttribute("title").slice(VoteID.getAttribute("title").indexOf("(") + 1, VoteID.getAttribute("title").indexOf("%"));
       if (Pourcent < 50) {
         VoteID.style.color = "#ff0000";
       }
@@ -574,7 +577,7 @@ padding-left:200px;\
       HideVote();
     });
 
-    ArrowUp2[i].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
+    ArrowUp2[k].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
   }
 
   $(".voteWindow").append('<div style="height:100px;overflow:hidden;"><img id="myNewImage" src="http://k.img.mu/M0OYvC.gif" height=auto width="256" ><div>');
