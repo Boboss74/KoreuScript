@@ -12,6 +12,8 @@
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
 // @connect      appli.koreus.com
+// @grant        GM.deleteValue
+// @grant        GM.setValue
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_setValue
@@ -575,19 +577,20 @@ padding-left:200px;\
   GM_addStyle('.blOptions span { font-weight: bold; cursor: pointer; }');
   GM_addStyle('.shutup { cursor: pointer; }');
 
-  function blacklist(user) {
-    GM_setValue(user, 'blacklisted');
-    applyBlacklists(true);
+  function blacklist(userId) {
+    GM.setValue('blacklisted.' + userId, true).then(() => { applyBlacklists(true); });
   }
 
-  function unblacklist(user) {
-    GM_setValue(user, 'unblacklisted'); // Inutile de conserver cette clé, mais je n'ai pas trouvé comment supprimer une clé GM, GM_deleteValue ne semblant pas fonctionner.
-    applyBlacklists(true);
+  function unblacklist(userId) {
+    GM.deleteValue('blacklisted.' + userId).then(() => { applyBlacklists(true); });
   }
 
-  function hideBlacklisted(postid, user) {
+  function hideBlacklisted(postid, userid) {
+    var postdd = postid.nextElementSibling.getElementsByClassName('dropdown')[0];
+    var userName = postdd.getElementsByTagName('option')[0].innerText;
     postid.nextElementSibling.style.display = 'none';
-    postid.innerHTML = '<div class="blBlock">🤐 <span class="blOptions">Message masqué (' + user + ' est blacklisté)<span class="blShow">Afficher le message</span><span class="blUnbl">Réautoriser ce membre</span></span></div>';
+
+    postid.innerHTML = '<div class="blBlock">🤐 <span class="blOptions">Message masqué (' + userName + ' est blacklisté)<span class="blShow">Afficher le message</span><span class="blUnbl">Réautoriser ce membre</span></span></div>';
     var blBlock = postid.getElementsByClassName('blBlock')[0];
     var blOptions = postid.getElementsByClassName('blOptions')[0];
 
@@ -607,19 +610,19 @@ padding-left:200px;\
       postid.nextElementSibling.style.display = 'table';
     });
     blUnbl.addEventListener('click', function () {
-      unblacklist(user);
+      unblacklist(userid);
     });
   }
 
-  function applyBlacklists(refine) { // FONCTION PRINCIPALE
+  function applyBlacklists(refine) {
     var posts = $('a[id^="forumpost"]');
 
     for (var p = 0; p < posts.length; p++) {
-      (function () {
+      (function () { try {
 
         var post = posts[p].nextElementSibling;
         var postdd = post.getElementsByClassName('dropdown')[0];
-        var poster = postdd.getElementsByTagName('option')[0].innerText;
+        var userId = postdd.getElementsByTagName('option')[1].getAttribute('value').match(/membre(\d+)\.html$/)[1];
 
         post.style.display = 'table';
         posts[p].innerHTML = '';
@@ -636,15 +639,17 @@ padding-left:200px;\
             shutup.style.visibility = 'hidden';
           });
           shutup.addEventListener('click', function () {
-            blacklist(poster);
+            blacklist(userId);
           });
         }
 
-        if (GM_getValue(poster) == 'blacklisted') {
-          hideBlacklisted(posts[p], poster);
+        if (GM_getValue("blacklisted." + userId)) {
+          hideBlacklisted(posts[p], userId);
         }
 
-      }());
+      } catch (err) {
+        console.log("[Koreuscript] Error while applying Blacklists: " + err);
+      }}());
     }
   }
 
