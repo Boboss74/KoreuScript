@@ -566,6 +566,8 @@ padding-left:200px;\
 
 
   // User Blacklist ##############################################
+  // Contributor -Flo-
+  // https://www.koreus.com/modules/newbb/topic165924-140.html#forumpost2539971
 
   GM_addStyle('.blBlock span { margin-left: 20px; }');
   GM_addStyle('.blBlock { font-weight: normal; }');
@@ -577,6 +579,7 @@ padding-left:200px;\
     GM_setValue(user, 'blacklisted');
     applyBlacklists(true);
   }
+
   function unblacklist(user) {
     GM_setValue(user, 'unblacklisted'); // Inutile de conserver cette clé, mais je n'ai pas trouvé comment supprimer une clé GM, GM_deleteValue ne semblant pas fonctionner.
     applyBlacklists(true);
@@ -584,12 +587,12 @@ padding-left:200px;\
 
   function hideBlacklisted(postid, user) {
     postid.nextElementSibling.style.display = 'none';
-    postid.innerHTML = '<div class="blBlock">🤐 <span class="blOptions">Message masqué ('+ user + ' est blacklisté)<span class="blShow">Afficher le message</span><span class="blUnbl">Réautoriser ce membre</span></span></div>';
+    postid.innerHTML = '<div class="blBlock">🤐 <span class="blOptions">Message masqué (' + user + ' est blacklisté)<span class="blShow">Afficher le message</span><span class="blUnbl">Réautoriser ce membre</span></span></div>';
     var blBlock = postid.getElementsByClassName('blBlock')[0];
     var blOptions = postid.getElementsByClassName('blOptions')[0];
 
     blOptions.style.visibility = 'hidden';
-    postid.addEventListener('click', function() {
+    postid.addEventListener('click', function () {
       if (blOptions.style.visibility == 'hidden') {
         blOptions.style.visibility = 'visible';
       } else {
@@ -600,15 +603,15 @@ padding-left:200px;\
     var blShow = postid.getElementsByClassName('blShow')[0];
     var blUnbl = postid.getElementsByClassName('blUnbl')[0];
 
-    blShow.addEventListener('click', function() {
+    blShow.addEventListener('click', function () {
       postid.nextElementSibling.style.display = 'table';
     });
-    blUnbl.addEventListener('click', function() {
+    blUnbl.addEventListener('click', function () {
       unblacklist(user);
     });
   }
 
-  function applyBlacklists(refine) {  // FONCTION PRINCIPALE
+  function applyBlacklists(refine) { // FONCTION PRINCIPALE
     var posts = $('a[id^="forumpost"]');
 
     for (var p = 0; p < posts.length; p++) {
@@ -626,13 +629,13 @@ padding-left:200px;\
           var shutup = postdd.getElementsByClassName('shutup')[0];
           shutup.style.visibility = 'hidden';
 
-          postdd.addEventListener('mouseover', function() {
+          postdd.addEventListener('mouseover', function () {
             shutup.style.visibility = 'visible';
           });
-          postdd.addEventListener('mouseout', function() {
+          postdd.addEventListener('mouseout', function () {
             shutup.style.visibility = 'hidden';
           });
-          shutup.addEventListener('click', function() {
+          shutup.addEventListener('click', function () {
             blacklist(poster);
           });
         }
