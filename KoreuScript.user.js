@@ -653,6 +653,8 @@ padding-left:200px;\
     }
   }
 
-  applyBlacklists(false);
+  if (window.location.href.includes("modules/newbb/topic")) {
+    applyBlacklists(false);
+  }
 
 })();
