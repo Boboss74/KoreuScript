@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.9.4
+// @version      0.9.5
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -12,6 +12,8 @@
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
 // @connect      appli.koreus.com
+// @grant        GM.deleteValue
+// @grant        GM.setValue
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_setValue
@@ -564,5 +566,95 @@ padding-left:200px;\
 
   $(".voteWindow").append('<div style="height:100px;overflow:hidden;"><img id="myNewImage" src="http://k.img.mu/M0OYvC.gif" height=auto width="256" ><div>');
 
+
+  // User Blacklist ##############################################
+  // Contributor -Flo-
+  // https://www.koreus.com/modules/newbb/topic165924-140.html#forumpost2539971
+
+  GM_addStyle('.blBlock span { margin-left: 20px; }');
+  GM_addStyle('.blBlock { font-weight: normal; }');
+  GM_addStyle('.blBlock:hover { color: black; }');
+  GM_addStyle('.blOptions span { font-weight: bold; cursor: pointer; }');
+  GM_addStyle('.shutup { cursor: pointer; }');
+
+  function blacklist(userId) {
+    GM.setValue('blacklisted.' + userId, true).then(() => { applyBlacklists(true); });
+  }
+
+  function unblacklist(userId) {
+    GM.deleteValue('blacklisted.' + userId).then(() => { applyBlacklists(true); });
+  }
+
+  function hideBlacklisted(postid, userid) {
+    var postdd = postid.nextElementSibling.getElementsByClassName('dropdown')[0];
+    var userName = postdd.getElementsByTagName('option')[0].innerText;
+    postid.nextElementSibling.style.display = 'none';
+
+    postid.innerHTML = '<div class="blBlock">🤐 <span class="blOptions">Message masqué (' + userName + ' est blacklisté)<span class="blShow">Afficher le message</span><span class="blUnbl">Réautoriser ce membre</span></span></div>';
+    var blBlock = postid.getElementsByClassName('blBlock')[0];
+    var blOptions = postid.getElementsByClassName('blOptions')[0];
+
+    blOptions.style.visibility = 'hidden';
+    postid.addEventListener('click', function () {
+      if (blOptions.style.visibility == 'hidden') {
+        blOptions.style.visibility = 'visible';
+      } else {
+        blOptions.style.visibility = 'hidden';
+      }
+    });
+
+    var blShow = postid.getElementsByClassName('blShow')[0];
+    var blUnbl = postid.getElementsByClassName('blUnbl')[0];
+
+    blShow.addEventListener('click', function () {
+      postid.nextElementSibling.style.display = 'table';
+    });
+    blUnbl.addEventListener('click', function () {
+      unblacklist(userid);
+    });
+  }
+
+  function applyBlacklists(refine) {
+    var posts = $('a[id^="forumpost"]');
+
+    for (var p = 0; p < posts.length; p++) {
+      (function () { try {
+
+        var post = posts[p].nextElementSibling;
+        var postdd = post.getElementsByClassName('dropdown')[0];
+        var userId = postdd.getElementsByTagName('option')[1].getAttribute('value').match(/membre(\d+)\.html$/)[1];
+
+        post.style.display = 'table';
+        posts[p].innerHTML = '';
+
+        if (!refine) {
+          postdd.innerHTML += '<span class="shutup">🤐</span>';
+          var shutup = postdd.getElementsByClassName('shutup')[0];
+          shutup.style.visibility = 'hidden';
+
+          postdd.addEventListener('mouseover', function () {
+            shutup.style.visibility = 'visible';
+          });
+          postdd.addEventListener('mouseout', function () {
+            shutup.style.visibility = 'hidden';
+          });
+          shutup.addEventListener('click', function () {
+            blacklist(userId);
+          });
+        }
+
+        if (GM_getValue("blacklisted." + userId)) {
+          hideBlacklisted(posts[p], userId);
+        }
+
+      } catch (err) {
+        console.log("[Koreuscript] Error while applying Blacklists: " + err);
+      }}());
+    }
+  }
+
+  if (window.location.href.includes("modules/newbb/topic")) {
+    applyBlacklists(false);
+  }
 
 })();
