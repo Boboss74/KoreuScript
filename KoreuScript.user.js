@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.9.5
+// @version      0.9.6
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -445,59 +445,6 @@ padding-left:200px;\
 
     document.getElementById(temp).style.visibility = "visible";
 
-    var GetDataURL;
-    var selector;
-    if (window.location.href.indexOf("/newbb/") > -1) {
-      GetDataURL = 'https://appli.koreus.com/up&down.php?posts=' + winID + '&comments=';
-    } else {
-      GetDataURL = 'https://appli.koreus.com/up&down.php?posts=&comments=' + winID;
-    }
-
-    // Recupère les votes
-
-    GM_xmlhttpRequest({
-      method: "GET",
-      url: GetDataURL,
-      onload: parseAJAX_ResponseHTML
-    });
-
-    function parseAJAX_ResponseHTML(respObject) {
-      var parser = new DOMParser();
-      var responseDoc = parser.parseFromString(respObject.responseText, "text/html");
-
-
-      var element1 = responseDoc.getElementsByTagName("table")[0];
-      var element2 = responseDoc.getElementsByTagName("table")[1];
-
-
-      //ajout du style sur les colones du tableau
-      var tds1 = element1.getElementsByTagName("td");
-      var i;
-      for (i = 0; i < tds1.length; i++) {
-        tds1[i].style.width = "50%";
-        //tds1[i].style.border="solid 1px rgba(0,0,0,0.3)";
-        tds1[i].style.padding = "5px";
-        //tds1[i].style.textAlign="center";
-        tds1[i].style.textTransform = "uppercase";
-        //tds1[i].style.boxShadow = "0px 0px 5px 0px rgba(0, 0, 0, 0.3) inset";
-      }
-
-      var tds2 = element2.getElementsByTagName("td");
-      for (i = 0; i < tds2.length; i++) {
-        tds2[i].style.width = "50%";
-        //tds1[i].style.textAlign="center";
-        //tds2[i].style.border="solid 1px rgba(0,0,0,0.3)";
-        tds2[i].style.padding = "5px";
-        //tds2[i].style.boxShadow = "0px 0px 5px 0px rgba(0, 0, 0, 0.3) inset";
-      }
-
-
-
-      // vide la fenetre et ajoute le contenue
-      $(document.getElementById(temp)).contents().remove();
-      document.getElementById(temp).appendChild(element1);
-      document.getElementById(temp).appendChild(element2);
-    }
 
   }
 
@@ -536,7 +483,8 @@ padding-left:200px;\
       HideVote();
     });
 
-    ArrowUp[j].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
+    ArrowUp[j].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'>Plus possible de savoir qui a voté<br><br>" +
+    "Koreus a retiré l'outils Up & Down<br><br>Il a annoncé que la fonctionnalité reviendra sous une autre forme</div>";
   }
 
   for (var k = 0; k < ArrowUp2.length; k++) {
@@ -564,7 +512,7 @@ padding-left:200px;\
     ArrowUp2[k].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
   }
 
-  $(".voteWindow").append('<div style="height:100px;overflow:hidden;"><img id="myNewImage" src="http://k.img.mu/M0OYvC.gif" height=auto width="256" ><div>');
+  $(".voteWindow").append('<div style="height:100px;overflow:hidden;"></div>');
 
 
   // User Blacklist ##############################################
