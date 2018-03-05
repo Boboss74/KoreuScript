@@ -435,18 +435,7 @@ padding-left:200px;\
   // VoteLive ##############################################
 
 
-  GM_addStyle('.voteWindow {position:absolute;z-index: 1000;right:10px;width:250px;margin-top:14px;padding:5px;background:#9A9ACE; visibility: hidden;}');
-
-  function ShowVote(id) {
-
-    var winID = id.getAttribute('id').replace('vote', '');
-    var temp = "votewin" + winID;
-
-
-    document.getElementById(temp).style.visibility = "visible";
-
-
-  }
+  GM_addStyle('.voteWindow {position:absolute;z-index: 1000;right:10px;width:250px;margin-top:4px;padding:5px;background:#9A9ACE; visibility: hidden;}');
 
   function HideVote() {
     var fenetres = document.getElementsByClassName("voteWindow");
@@ -456,63 +445,57 @@ padding-left:200px;\
   }
 
   // Récupère tous les boutons vote up et ajoute une fonction hover qui appel la fonction ShowVote et HideVote
-  var ArrowUp = document.getElementsByClassName("arrow-up");
-  var ArrowUp2 = document.getElementsByClassName("arrow-up2");
+  var Arrows = [...document.getElementsByClassName("arrow-up"), ...document.getElementsByClassName("arrow-up2")];
+
   var PID;
   var VoteID;
   var Pourcent;
 
-  for (var j = 0; j < ArrowUp.length; j++) {
-    PID = ArrowUp[j].getAttribute('id').replace('up', '');
-    VoteID = document.getElementById("vote" + PID);
+  for (var j = 0; j < Arrows.length; j++) {
+
+
+
+    PID = Arrows[j].getAttribute('id').replace('up', '');
+    VoteID = Arrows[j].parentNode.querySelector("#vote" + PID);
     VoteID.style.cursor = "pointer";
 
-    if (VoteColor) {
-      Pourcent = VoteID.getAttribute("title").slice(VoteID.getAttribute("title").indexOf("(") + 1, VoteID.getAttribute("title").indexOf("%"));
-      if (Pourcent < 50) {
-        VoteID.style.color = "#ff0000";
-      }
-      if (Pourcent > 50) {
-        VoteID.style.color = "#00ff00";
-      }
-    }
+	if (VoteColor) {
+ 		var title = VoteID.getAttribute('title');
+		var score = parseInt(VoteID.textContent);
+
+		var pourcent = undefined;
+		if (title.includes("%")) {
+			pourcent = parseInt(title.slice(title.indexOf("(") + 1, title.indexOf("%")));
+		} else if (score === 0 && title === "1 vote") {
+			pourcent = 0;
+		} else if (score === 1 && title === "1 vote") {
+			pourcent = 100;
+		}
+
+		if (pourcent < 50) {
+			VoteID.style.color = "#FF5252";
+		}
+		if (pourcent > 50) {
+			VoteID.style.color = "#00E676";
+		}
+	}
+
+
     VoteID.addEventListener("click", function() {
-      ShowVote(this);
+      var pid = this.getAttribute('id').replace('vote', '');
+      if (this.parentNode.querySelector("#votewin" + pid).style.visibility === "visible") HideVote();
+      else this.parentNode.querySelector("#votewin" + pid).style.visibility = "visible";
     });
-    VoteID.addEventListener("mouseout", function() {
+
+    Arrows[j].innerHTML += "<div class='voteWindow' id='votewin" + PID + "'>Plus possible de savoir qui a voté<br><br>" +
+    "Koreus a retiré l'outils Up & Down<br><br>Il a annoncé que <a href='/modules/newbb/topic146759-640.html#forumpost2546978'>la fonctionnalité reviendra sous une autre forme</a></div>";
+
+    Arrows[j].querySelector("#votewin" + PID).addEventListener("mouseleave", function() {
       HideVote();
     });
 
-    ArrowUp[j].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'>Plus possible de savoir qui a voté<br><br>" +
-    "Koreus a retiré l'outils Up & Down<br><br>Il a annoncé que la fonctionnalité reviendra sous une autre forme</div>";
   }
 
-  for (var k = 0; k < ArrowUp2.length; k++) {
-    PID = ArrowUp2[k].getAttribute('id').replace('up', '');
-    VoteID = document.getElementById("vote" + PID);
-    VoteID.style.cursor = "pointer";
-
-    if (VoteColor) {
-      Pourcent = VoteID.getAttribute("title").slice(VoteID.getAttribute("title").indexOf("(") + 1, VoteID.getAttribute("title").indexOf("%"));
-      if (Pourcent < 50) {
-        VoteID.style.color = "#ff0000";
-      }
-      if (Pourcent > 50) {
-        VoteID.style.color = "#00ff00";
-      }
-    }
-
-    VoteID.addEventListener("click", function() {
-      ShowVote(this);
-    });
-    VoteID.addEventListener("mouseout", function() {
-      HideVote();
-    });
-
-    ArrowUp2[k].innerHTML = "<div class='voteWindow' id='votewin" + PID + "'></div>";
-  }
-
-  $(".voteWindow").append('<div style="height:100px;overflow:hidden;"></div>');
 
 
   // User Blacklist ##############################################
@@ -596,7 +579,7 @@ padding-left:200px;\
         }
 
       } catch (err) {
-        console.log("[Koreuscript] Error while applying Blacklists: " + err);
+        console.error("[Koreuscript] Error while applying Blacklists: " + err);
       }}());
     }
   }
