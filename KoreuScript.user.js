@@ -82,6 +82,9 @@ var emo_smile = [
 
   var VoteColor = false;
   VoteColor = GM_getValue('VoteColorSave');
+
+  var RealVote = GM_getValue('RealVoteSave') || true;
+
   // ===================
 
 
@@ -117,6 +120,7 @@ Thème : \
 <p style="padding-left:5px"><input name="RapideStyleCheck" class="checkboxks" id="Check_RR_ID" type="checkbox"><label  name="RapideStyleCheck" for="Check_RR_ID"><span class="ui"></span>Editeur Rapide</label></p>\
 <p style="padding-left:5px"><input name="EmojiCheck" class="checkboxks" id="Check_Emoji_ID" type="checkbox"><label  name="EmojiCheck" for="Check_Emoji_ID"><span class="ui"></span>Emoji</label></p>\
 <p style="padding-left:5px"><input name="VoteColor" class="checkboxks" id="Check_VoteColor_ID" type="checkbox"><label  name="VoteColor" for="Check_VoteColor_ID"><span class="ui"></span>Couleur Vote</label></p>\
+<p style="padding-left:5px"><input name="RealVote" class="checkboxks" id="Check_RealVote_ID" type="checkbox"><label  name="RealVote" for="Check_RealVote_ID"><span class="ui"></span>Score Vote Réel</label></p>\
 </div>');
   // ==============================
 
@@ -147,6 +151,7 @@ Thème : \
   $('#Check_RR_ID').prop("checked", CheckRepRapid);
   $('#Check_Emoji_ID').prop("checked", CheckEmoji);
   $('#Check_VoteColor_ID').prop("checked", VoteColor);
+  $('#Check_RealVote_ID').prop("checked", RealVote);
 
   $('select[name="theme"]').change(function() {
     GM_setValue('ThemeSave', this.value);
@@ -179,6 +184,12 @@ Thème : \
   $('#Check_VoteColor_ID').change(function() {
     VoteColor = !VoteColor;
     GM_setValue('VoteColorSave', VoteColor);
+    location.reload();
+  });
+
+  $('#Check_RealVote_ID').change(function() {
+    RealVote = !RealVote;
+    GM_setValue('RealVoteSave', RealVote);
     location.reload();
   });
   // ==========================
@@ -497,6 +508,39 @@ padding-left:200px;\
   }
 
 
+  // Real Vote Score ###########################################################
+  // Boboss
+
+  if (RealVote) {
+    let arrowElems = [...document.getElementsByClassName('arrow-up'), ...document.getElementsByClassName('arrow-up2')]
+
+    for (let arrowElem of arrowElems) {
+      let voteId = arrowElem.getAttribute('id').substr(2)
+      let vote = arrowElem.parentNode.querySelector('#vote' + voteId)
+      let voteScore = parseInt(vote.textContent)
+      let title = vote.getAttribute('title')
+      let totalVote = title.split(' ')[0]
+
+      let pourcentPositif
+      if (title.includes('%')) {
+        pourcentPositif = parseInt(title.slice(title.indexOf('(') + 1, title.indexOf('%')))
+      } else if (voteScore === 1 && title === '1 vote') {
+        pourcentPositif = 100
+      } else if (voteScore === 0 && title === '1 vote') {
+        pourcentPositif = 0
+      } else if (voteScore === 0 && title === '0 vote') {
+        continue
+      } else {
+        console.error('Should never be here: ' + title)
+        continue
+      }
+
+      let voteRealScore = Math.round(totalVote * ((pourcentPositif - 50) * 2) / 100)
+      console.log(vote, 'total', totalVote, 'displayed', voteScore, 'indice positif', pourcentPositif, 'calculé', voteRealScore)
+
+      vote.innerText = voteRealScore
+    }
+  }
 
   // User Blacklist ##############################################
   // Contributor -Flo-
