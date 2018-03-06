@@ -5,8 +5,9 @@
 ## Fonctionnalités
 KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
 
- * Afficher le pseudo des votants
+ * ~~Afficher le pseudo des votants~~
  * Amélioration de la messagerie
+ * Afficher score négatifs des votes
  * Blacklister un utilisateur
  * Changement de thème
  
@@ -21,6 +22,8 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.9.7** : Possibilité d'afficher les scores négatifs des votes (Boboss)
+ - **0.9.6** : Plus possible de récupèrer la liste des votants: fonctionnalité supprimée
  - **0.9.5** : Possibilité de Blacklister des utilisateurs en cliquant sur le petit émoji qui s'affiche lorsqu'on survole le pseudo. ([-flo-, Boboss](https://github.com/Boboss74/KoreuScript/pull/1))
  - **0.9.0** : Ajout de la possibilité de changer la couleur des votes en fonction de leurs popularité.(Rouge=Négatif, Vert=Positif)
  - **0.8.0** : Ajout de l'option Emoji 😀
