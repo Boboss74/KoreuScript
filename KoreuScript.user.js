@@ -64,29 +64,14 @@ var emo_smile = [
 
 
   // Initialise les variable permanentes
-  var ThemeStyle = "Defaut";
-  ThemeStyle = GM_getValue('ThemeSave');
-
-  var CheckMessage = false;
-  CheckMessage = GM_getValue('CheckMSave');
-
-  var CheckPageDown = false;
-  CheckPageDown = GM_getValue('CheckPSave');
-
-  var CheckRepRapid = false;
-  CheckRepRapid = GM_getValue('RepRapidSave');
-
-
-  var CheckEmoji = false;
-  CheckEmoji = GM_getValue('CheckEmojiSave');
-
-  var VoteColor = false;
-  VoteColor = GM_getValue('VoteColorSave');
-
-  var RealVote = GM_getValue('RealVoteSave') || true;
-
+  var ThemeStyle = GM_getValue('ThemeSave') === undefined ? false : GM_getValue('ThemeSave');
+  var CheckMessage = GM_getValue('CheckMSave') === undefined ? false : GM_getValue('CheckMSave');
+  var CheckPageDown = GM_getValue('CheckPSave') === undefined ? false : GM_getValue('CheckPSave');
+  var CheckRepRapid = GM_getValue('RepRapidSave') === undefined ? false : GM_getValue('RepRapidSave');
+  var CheckEmoji = GM_getValue('CheckEmojiSave') === undefined ? false : GM_getValue('CheckEmojiSave');
+  var VoteColor = GM_getValue('VoteColorSave') === undefined ? false : GM_getValue('VoteColorSave');
+  var RealVote = GM_getValue('RealVoteSave') === undefined ? true : GM_getValue('RealVoteSave');
   // ===================
-
 
   // Change le Theme =================
   switch (ThemeStyle) {
