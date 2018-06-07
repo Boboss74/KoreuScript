@@ -241,12 +241,20 @@ Thème : \
       $('<div id = "emoji-list" style="width:400px"></div').insertAfter('#emoji')
       appendArray(smileys, 'message')
     }
+    // TODO smiley inside sceditor
+    // if (sceditor) {
+    //   sceditor.instance(document.getElementById('message'))
+    //   var newOpts = Object.assign({}, sceditor.instance(document.getElementById('message')).opts, { toolbar: 'bold' })
+    //   sceditor.destroy()
+    //   var newSceditor = sceditor.create(document.getElementById('message'), newOpts)
+    //   // newSceditor.sourceMode(true) // TODO reuse previous sourceMode value
+    // }
   }
 
   function appendArray (array, messageId) {
     var list = ''
     for (var i = 0; i < array.length; i++) {
-      list += '<a onclick="xoopsCodeSmilie(&quot;' + messageId + '&quot;, &quot; ' + array[i] + ' &quot;);" style="cursor: pointer;">' + array[i] + '</a>'
+      list += '<a onclick="sceditor.instance(document.getElementById(\'message\')).insert(\'' + array[i] + '\');" style="cursor: pointer;">' + array[i] + '</a>'
     }
     $('#emoji-list').append(list)
   }
