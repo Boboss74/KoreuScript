@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.9.8
+// @version      0.9.9
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -424,7 +424,7 @@ padding-left:200px;\
       var title = VoteID.getAttribute('title')
       var score = parseInt(VoteID.textContent)
 
-      var pourcent
+      let pourcent
       if (title.includes('%')) {
         pourcent = parseInt(title.slice(title.indexOf('(') + 1, title.indexOf('%')))
       } else if (score === 0 && title === '1 vote') {
