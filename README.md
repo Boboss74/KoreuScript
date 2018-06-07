@@ -22,6 +22,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.9.8** : Fix: les smileys fonctionnent désormais avec le nouvel éditeur
  - **0.9.7** : Possibilité d'afficher les scores négatifs des votes (Boboss)
  - **0.9.6** : Plus possible de récupèrer la liste des votants: fonctionnalité supprimée
  - **0.9.5** : Possibilité de Blacklister des utilisateurs en cliquant sur le petit émoji qui s'affiche lorsqu'on survole le pseudo. ([-flo-, Boboss](https://github.com/Boboss74/KoreuScript/pull/1))
