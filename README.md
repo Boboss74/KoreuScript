@@ -22,6 +22,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.9.11** : (Appli Koreus) Liens cliquables dans les chats de team
  - **0.9.10** : Fix: champ destinataire de la messagerie ([Cf. ticket](https://www.koreus.com/modules/newbb/topic187711.html))
  - **0.9.8** : Fix: les smileys fonctionnent désormais avec le nouvel éditeur
  - **0.9.7** : Possibilité d'afficher les scores négatifs des votes (Boboss)
