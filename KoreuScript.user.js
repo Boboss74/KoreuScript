@@ -9,8 +9,11 @@
 // @updateURL    https://openuserjs.org/meta/Benissou/KoreuScript.meta.js
 // @include      http://www.koreus.com/*
 // @include      https://www.koreus.com/*
+// @include      http://appli.koreus.com/*
+// @include      https://appli.koreus.com/*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
+// @require      https://raw.githubusercontent.com/bryanwoods/autolink-js/1.0.2/autolink-min.js
 // @connect      appli.koreus.com
 // @grant        GM.deleteValue
 // @grant        GM.setValue
@@ -35,6 +38,11 @@ var smileys = [
 
 (function () {
   'use strict'
+
+  if (window.location.host === 'appli.koreus.com') {
+    improveAppli() // Amélioration de l'Appli Koreus
+    return
+  }
 
   GM_addStyle('\
   .checkboxks {display: none;}\
@@ -580,5 +588,15 @@ padding-left:200px;\
 
   if (window.location.href.includes('modules/newbb/topic')) {
     applyBlacklists(false)
+  }
+
+  // Amélioration de l'Appli Koreus
+  function improveAppli () {
+    if (window.location.pathname === '/user/games/discussion.php') {
+      // Transforme les liens dans la discussion en vrais liens cliquables
+      $('div#messages p').each(function() {
+        this.innerHTML = this.innerHTML.autoLink({ target: "_blank" })
+      })
+    }
   }
 })()
