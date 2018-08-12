@@ -71,11 +71,11 @@ var smileys = [
   switch (ThemeStyle) {
     case 'Look':
       GM_addStyle(CSSLook)
-      $('img[src*="//koreus.cdn.li/static/images/logo.jpg"]').attr('src', 'http://k.img.mu/GYD7KO.png')
+      $('img[src="//koreus.cdn.li/static/images/logo.jpg"]').attr('src', '//k.img.mu/GYD7KO.png').removeAttr('height').removeAttr('width')
       break
     case 'Dark':
       GM_addStyle(CSSDark)
-      $('img[src*="//koreus.cdn.li/static/images/logo.jpg"]').attr('src', 'http://k.img.mu/GYD7KO.png')
+      $('img[src="//koreus.cdn.li/static/images/logo.jpg"]').attr('src', '//k.img.mu/GYD7KO.png').removeAttr('height').removeAttr('width')
       break
     default:
   }
