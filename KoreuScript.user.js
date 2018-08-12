@@ -81,6 +81,13 @@ var smileys = [
   }
   // ==============================
 
+  // Corrige des bugs =================
+  //
+  // Fix: Messagerie, champs destinataire limité à 50 caractères
+  // https://www.koreus.com/modules/newbb/topic187711.html
+  $('input[name="to_userid"]').removeAttr('maxlength').attr('size', 50)
+  // ==================================
+
   // Ajoute le menu ==================
   $('#leftcolumn').prepend('<div id="ScriptSection" class="blockContent"><button id="btnScript" type="button" style="width:100%">▼ Script Option</button></div>')
 
