@@ -593,9 +593,15 @@ padding-left:200px;\
   // Amélioration de l'Appli Koreus
   function improveAppli () {
     if (window.location.pathname === '/user/games/discussion.php') {
-      // Transforme les liens dans la discussion en vrais liens cliquables
-      $('div#messages p').each(function() {
-        this.innerHTML = this.innerHTML.autoLink({ target: "_blank" })
+      $('div#messages p').each(function () {
+        // Transforme les liens dans la discussion en vrais liens cliquables
+        this.innerHTML = this.innerHTML.autoLink({ target: '_blank' })
+
+        // Affichage en couleurs des scores
+        let m = this.innerHTML.match(/(.*<\/b>:\s+)(\d+)\s(\d+)\s(\d+)(\s?.*)/)
+        if (m) {
+          this.innerHTML = `${m[1]}<b><span class="text-team1">${m[2]}</span> <span class="text-team2">${m[3]}</span> <span class="text-team3">${m[4]}</span></b>${m[5]}`
+        }
       })
     }
   }
