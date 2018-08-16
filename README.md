@@ -22,6 +22,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.10.1** : (Appli Koreus) Notification possible des nouveaux messages du tchat de team
  - **0.10.0** : Mise à jour de jQuery, retrait de jQuery-ui
  - **0.9.12** : (Appli Koreus) Score en couleur dans les chats de team ([Aperçu](https://k.img.mu/1hGVFY.png))
  - **0.9.11** : (Appli Koreus) Liens cliquables dans les chats de team
