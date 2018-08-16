@@ -11,8 +11,7 @@
 // @include      https://www.koreus.com/*
 // @include      http://appli.koreus.com/*
 // @include      https://appli.koreus.com/*
-// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-// @require      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/bryanwoods/autolink-js/1.0.2/autolink-min.js
 // @connect      appli.koreus.com
 // @grant        GM.deleteValue
