@@ -39,8 +39,7 @@ var smileys = [
   'use strict'
 
   if (window.location.host === 'appli.koreus.com') {
-    improveAppli() // Amélioration de l'Appli Koreus
-    return
+    return improveAppli() // Amélioration de l'Appli Koreus
   }
 
   GM_addStyle('\
@@ -591,35 +590,57 @@ padding-left:200px;\
 
   // Amélioration de l'Appli Koreus
   function improveAppli () {
+    // Tchat d'équipe
     if (window.location.pathname === '/user/games/discussion.php') {
-      changeTchat()
+      improveMessage()
+
+      let inputTextElement = $('form div.col-md-10')
+      inputTextElement.addClass('col-md-9').removeClass('col-md-10')
+      $(`<div class="col-md-1"><input id="btn-config-notif-tchat" class="btn btn-block btn-info" title="${GM_getValue('NotificationTchat') ? 'Désactiver les notifications' : 'Activer les notifications'}" type="button" value="${GM_getValue('NotificationTchat') ? '🔈' : '🔇'}"></div>`).insertAfter($('form div.col-md-2'))
+      $('#btn-config-notif-tchat').click(toggleNotificationTchat)
 
       // Create an observer instance linked to the callback function
-      var observer = new MutationObserver(function (mutationsList) {
-        for (var mutation of mutationsList) {
-          if (mutation.type === 'childList') { changeTchat() }
+      let observer = new MutationObserver(function (mutationsList) {
+        for (let mutation of mutationsList) {
+          if (mutation.type === 'childList' && mutation.addedNodes[0]) {
+            let currentPseudo = $('a.nav-link[href="/user"]')[0] ? $('a.nav-link[href="/user"]')[0].innerText : undefined
+            let message = mutation.addedNodes[0].innerText.substr(11) // substr to remove time
+            if (message.split(':')[0] !== currentPseudo && !document.hasFocus()) {
+              new Notification('Team Egg', {body: message, icon: '/user/img/eggs/gif/oeuf0s.gif'})
+            }
+            improveMessage()
+          }
         }
       })
 
       // Start observing the target node for configured mutations
       observer.observe(document.getElementById('messages'), { childList: true })
     }
-  }
 
-  function changeTchat () {
-    $('div#messages p').each(function () {
-      if (!this.dataset.improved) {
-        this.dataset.improved = true
+    function improveMessage () {
+      $('div#messages p').each(function () {
+        if (!this.dataset.improved) {
+          this.dataset.improved = true
 
-        // Transforme les liens dans la discussion en vrais liens cliquables
-        this.innerHTML = this.innerHTML.autoLink({ target: '_blank' })
+          // Transforme les liens dans la discussion en vrais liens cliquables
+          this.innerHTML = this.innerHTML.autoLink({ target: '_blank' })
 
-        // Affichage en couleurs des scores
-        let m = this.innerHTML.match(/(.*<\/b>:\s+)(\d+)\s(\d+)\s(\d+)(\s?.*)/)
-        if (m) {
-          this.innerHTML = `${m[1]}<b><span class="text-team1">${m[2]}</span> <span class="text-team2">${m[3]}</span> <span class="text-team3">${m[4]}</span></b>${m[5]}`
+          // Affichage en couleurs des scores
+          let m = this.innerHTML.match(/(.*<\/b>:\s+)(\d+)\s(\d+)\s(\d+)(\s?.*)/)
+          if (m) {
+            this.innerHTML = `${m[1]}<b><span class="text-team1">${m[2]}</span> <span class="text-team2">${m[3]}</span> <span class="text-team3">${m[4]}</span></b>${m[5]}`
+          }
         }
-      }
-    })
+      })
+    }
+
+    function toggleNotificationTchat () {
+      Notification.requestPermission()
+      let newConfigNotifTchat = !GM_getValue('NotificationTchat')
+      GM_setValue('NotificationTchat', newConfigNotifTchat)
+      $('#btn-config-notif-tchat').val(newConfigNotifTchat ? '🔈' : '🔇')
+      $('#btn-config-notif-tchat').attr('title', GM_getValue('NotificationTchat') ? 'Désactiver les notifications' : 'Activer les notifications')
+      $('#btn-config-notif-tchat').blur()
+    }
   }
 })()
