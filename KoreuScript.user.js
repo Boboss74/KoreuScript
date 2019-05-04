@@ -29,6 +29,9 @@
 // @collaborator Boboss
 // ==/OpenUserJS==
 
+/* eslint-env browser, jquery, greasemonkey */
+/* eslint no-multi-str: 0 */
+
 var smileys = [
   '😀', '😁', '😂', '😃', '😄', '😅', '😆', '😇', '😈', '😉', '😊', '😋', '😌', '😍', '😎', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
   '😗', '😘', '😙', '😚', '😛', '😜', '😝', '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😦', '😧', '😨', '😩', '😪', '😫', '😬', '😭',
@@ -603,11 +606,10 @@ padding-left:200px;\
       let observer = new MutationObserver(function (mutationsList) {
         for (let mutation of mutationsList) {
           if (mutation.type === 'childList' && mutation.addedNodes[0]) {
-
             let currentPseudo = $('a.nav-link[href="/user"]')[0] ? $('a.nav-link[href="/user"]')[0].innerText : undefined
             let message = mutation.addedNodes[0].innerText.substr(11) // substr to remove time
             if (message.split(':')[0] !== currentPseudo && !document.hasFocus() && GM_getValue('NotificationTchat')) {
-              new Notification('Team Egg', {body: message, icon: '/user/img/eggs/gif/oeuf0s.gif'})
+              new Notification('Team Egg', { body: message, icon: '/user/img/eggs/gif/oeuf0s.gif' }) // eslint-disable-line no-new
             }
             improveMessage()
           }
