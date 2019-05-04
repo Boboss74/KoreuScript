@@ -91,11 +91,16 @@ var smileys = [
   // ==============================
 
   // Corrige des bugs =================
-  //
+
   // Fix: Messagerie, champs destinataire limité à 50 caractères
   // https://www.koreus.com/modules/newbb/topic187711.html
   $('input[name="to_userid"]').removeAttr('maxlength').attr('size', 50)
-  // ==================================
+
+  // Fix: Intégration d'un tweet supprimé laisse un espace vide
+  // https://www.koreus.com/modules/newbb/topic198288.html
+  GM_addStyle('blockquote.twitter-tweet-error { background: url("https://k.img.mu/ekaAqx.png") no-repeat; height: 80px; margin: unset;}')
+
+  // ==============================
 
   // Ajoute le menu ==================
   $('#leftcolumn').prepend('<div id="ScriptSection" class="blockContent"><button id="btnScript" type="button" style="width:100%">▼ Script Option</button></div>')
