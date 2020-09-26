@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.3
+// @version      0.10.4
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -43,21 +43,6 @@ var smileys = [
 
   if (window.location.host === 'appli.koreus.com') {
     return improveAppli() // Amélioration de l'Appli Koreus
-  }
-
-  // fix twitter widget height
-  if (window.location.pathname.startsWith('/video/')) {
-    window.addEventListener('load', function () {
-      if (document.getElementById('twitter-widget-0')) {
-        const twitterWidgetHeight = document.getElementById('twitter-widget-0').offsetHeight
-        if (document.getElementById('videoDiv')) {
-          document.getElementById('videoDiv').style['padding-bottom'] = 'unset'
-          document.getElementById('videoDiv').style.height = `${twitterWidgetHeight + 15}px`
-        } else {
-          console.warn('Koreuscript - fix twitter widget height: cannot find #videoDiv')
-        }
-      }
-    })
   }
 
   GM_addStyle('\
@@ -115,6 +100,21 @@ var smileys = [
   // https://www.koreus.com/modules/newbb/topic198288.html
   GM_addStyle('blockquote.twitter-tweet-error { background: url("https://k.img.mu/ekaAqx.png") no-repeat; height: 80px; margin: unset;}')
 
+  // Fix: Twitter widget height
+  if (window.location.pathname.startsWith('/video/')) {
+    window.addEventListener('load', function () {
+      if (document.getElementById('twitter-widget-0')) {
+        // When loaded in a new tab, offsetHeight is 0
+        const twitterWidgetHeight = document.getElementById('twitter-widget-0').offsetHeight || 600
+        if (document.getElementById('videoDiv')) {
+          document.getElementById('videoDiv').style['padding-bottom'] = 'unset'
+          document.getElementById('videoDiv').style.height = `${twitterWidgetHeight + 15}px`
+        } else {
+          console.warn('Koreuscript - fix twitter widget height: cannot find #videoDiv')
+        }
+      }
+    })
+  }
   // ==============================
 
   // Ajoute le menu ==================
@@ -226,7 +226,7 @@ Thème : \
 
   // =====================================
 
-  // Ajoute les boutons de défilement si l'option est coché
+  // Ajoute les boutons de défilement si l'option est cochée
   if (CheckPageDown) {
     $('body').prepend('<div align="right" style="position:fixed; top:0; right:0;background-color:#9a9ace"><span id="ScrollUp" style="float:right;cursor: pointer;margin-left:2px;">▲</span><span id="ScrollDown" style="float:right;cursor: pointer;">▼</span></div>')
 
@@ -243,7 +243,7 @@ Thème : \
   }
   // =======================================
 
-  // Ajoute l'éditeur si l'option est coché ==================
+  // Ajoute l'éditeur si l'option est cochée ==================
   if (CheckRepRapid) {
     if (window.location.href.indexOf('newbb/topic') > -1) {
       $('<img onmouseover="style.cursor=&quot;hand&quot;" src="//media.koreus.com/images/url.gif" alt="url" onclick="xoopsCodeUrl(&quot;message&quot;, &quot;Entrez l\'URL du lien que vous voulez ajouter :&quot;, &quot;Entrez le titre du site web :&quot;);" style="">\
@@ -268,7 +268,7 @@ Thème : \
   }
   // =======================
 
-  // Ajoute les emoji si l'option est coché
+  // Ajoute les emoji si l'option est cochée
   if (CheckEmoji) {
     if (window.location.href.indexOf('comment_new.php') > -1) {
       $('<br id="emoji">').insertAfter('#com_text')
