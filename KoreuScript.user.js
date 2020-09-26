@@ -45,6 +45,21 @@ var smileys = [
     return improveAppli() // Amélioration de l'Appli Koreus
   }
 
+  // fix twitter widget height
+  if (window.location.pathname.startsWith('/video/')) {
+    window.addEventListener('load', function () {
+      if (document.getElementById('twitter-widget-0')) {
+        const twitterWidgetHeight = document.getElementById('twitter-widget-0').offsetHeight
+        if (document.getElementById('videoDiv')) {
+          document.getElementById('videoDiv').style['padding-bottom'] = 'unset'
+          document.getElementById('videoDiv').style.height = `${twitterWidgetHeight + 15}px`
+        } else {
+          console.warn('Koreuscript - fix twitter widget height: cannot find #videoDiv')
+        }
+      }
+    })
+  }
+
   GM_addStyle('\
   .checkboxks {display: none;}\
   .checkboxks+label { position: relative; padding-left: 55px; cursor: pointer; }\
@@ -124,9 +139,11 @@ Thème : \
   // ==============================
 
   // Ouverture/Fermeture du menu
-  document.getElementById('btnScript').addEventListener('click', function () {
-    Ouverture('MenuScript')
-  })
+  if (document.getElementById('btnScript')) {
+    document.getElementById('btnScript').addEventListener('click', function () {
+      Ouverture('MenuScript')
+    })
+  }
 
   function Ouverture (idName) {
     var varName = document.getElementById(idName)
@@ -480,14 +497,14 @@ padding-left:200px;\
   // Boboss
 
   if (RealVote) {
-    let arrowElems = [...document.getElementsByClassName('arrow-up'), ...document.getElementsByClassName('arrow-up2')]
+    const arrowElems = [...document.getElementsByClassName('arrow-up'), ...document.getElementsByClassName('arrow-up2')]
 
-    for (let arrowElem of arrowElems) {
-      let voteId = arrowElem.getAttribute('id').substr(2)
-      let vote = arrowElem.parentNode.querySelector('#vote' + voteId)
-      let voteScore = parseInt(vote.textContent)
-      let title = vote.getAttribute('title')
-      let totalVote = title.split(' ')[0]
+    for (const arrowElem of arrowElems) {
+      const voteId = arrowElem.getAttribute('id').substr(2)
+      const vote = arrowElem.parentNode.querySelector('#vote' + voteId)
+      const voteScore = parseInt(vote.textContent)
+      const title = vote.getAttribute('title')
+      const totalVote = title.split(' ')[0]
 
       let pourcentPositif
       if (title.includes('%')) {
@@ -602,17 +619,17 @@ padding-left:200px;\
     if (window.location.pathname === '/user/games/discussion.php') {
       improveMessage()
 
-      let inputTextElement = $('form div.col-md-10')
+      const inputTextElement = $('form div.col-md-10')
       inputTextElement.addClass('col-md-9').removeClass('col-md-10')
       $(`<div class="col-md-1"><input id="btn-config-notif-tchat" class="btn btn-block btn-info" title="${GM_getValue('NotificationTchat') ? 'Désactiver les notifications' : 'Activer les notifications'}" type="button" value="${GM_getValue('NotificationTchat') ? '🔈' : '🔇'}"></div>`).insertAfter($('form div.col-md-2'))
       $('#btn-config-notif-tchat').click(toggleNotificationTchat)
 
       // Create an observer instance linked to the callback function
-      let observer = new MutationObserver(function (mutationsList) {
-        for (let mutation of mutationsList) {
+      const observer = new MutationObserver(function (mutationsList) {
+        for (const mutation of mutationsList) {
           if (mutation.type === 'childList' && mutation.addedNodes[0]) {
-            let currentPseudo = $('a.nav-link[href="/user"]')[0] ? $('a.nav-link[href="/user"]')[0].innerText : undefined
-            let message = mutation.addedNodes[0].innerText.substr(11) // substr to remove time
+            const currentPseudo = $('a.nav-link[href="/user"]')[0] ? $('a.nav-link[href="/user"]')[0].innerText : undefined
+            const message = mutation.addedNodes[0].innerText.substr(11) // substr to remove time
             if (message.split(':')[0] !== currentPseudo && !document.hasFocus() && GM_getValue('NotificationTchat')) {
               new Notification('Team Egg', { body: message, icon: '/user/img/eggs/gif/oeuf0s.gif' }) // eslint-disable-line no-new
             }
@@ -634,7 +651,7 @@ padding-left:200px;\
           this.innerHTML = this.innerHTML.autoLink({ target: '_blank' })
 
           // Affichage en couleurs des scores
-          let m = this.innerHTML.match(/(.*<\/b>:\s+)(\d+)\s(\d+)\s(\d+)(\s?.*)/)
+          const m = this.innerHTML.match(/(.*<\/b>:\s+)(\d+)\s(\d+)\s(\d+)(\s?.*)/)
           if (m) {
             this.innerHTML = `${m[1]}<b><span class="text-team1">${m[2]}</span> <span class="text-team2">${m[3]}</span> <span class="text-team3">${m[4]}</span></b>${m[5]}`
           }
@@ -644,7 +661,7 @@ padding-left:200px;\
 
     function toggleNotificationTchat () {
       Notification.requestPermission()
-      let newConfigNotifTchat = !GM_getValue('NotificationTchat')
+      const newConfigNotifTchat = !GM_getValue('NotificationTchat')
       GM_setValue('NotificationTchat', newConfigNotifTchat)
       $('#btn-config-notif-tchat').val(newConfigNotifTchat ? '🔈' : '🔇')
       $('#btn-config-notif-tchat').attr('title', GM_getValue('NotificationTchat') ? 'Désactiver les notifications' : 'Activer les notifications')
