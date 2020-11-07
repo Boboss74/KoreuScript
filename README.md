@@ -10,7 +10,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Afficher score négatifs des votes
  * Blacklister un utilisateur
  * Changement de thème
- 
+
 ## Installation
 
  1. Installez l'extension [Tampermonkey](https://tampermonkey.net) pour votre navigateur web
@@ -22,7 +22,8 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
- - **0.10.3** : Fix: Hauteur des videos twitter dans la section videos
+ - **0.10.5** : Fix: Emojis désormais utilisables dans l'éditeur en mode édition rapide
+ - **0.10.4** : Fix: Hauteur des videos twitter dans la section videos
  - **0.10.2** : Fix: Affiche un message pour l'affichage d'un tweet supprimé
  - **0.10.1** : (Appli Koreus) Notification possible des nouveaux messages du tchat de team
  - **0.10.0** : Mise à jour de jQuery, retrait de jQuery-ui

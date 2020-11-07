@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.4
+// @version      0.10.5
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -270,31 +270,30 @@ Thème : \
 
   // Ajoute les emoji si l'option est cochée
   if (CheckEmoji) {
-    if (window.location.href.indexOf('comment_new.php') > -1) {
-      $('<br id="emoji">').insertAfter('#com_text')
+    const isSceditor = Array.from(document.getElementsByTagName("script")).some((elem) => elem.getAttribute('src')?.includes('/sceditor'))
+    function insertSmileys(insertAfterId) {
+      $('<br id="emoji">').insertAfter(insertAfterId)
       $('<div id = "emoji-list" style="width:400px"></div').insertAfter('#emoji')
-      appendArray(smileys, 'com_text')
-    } else if (window.location.href.indexOf('modules/newbb/') > -1) {
-      $('<br id="emoji">').insertAfter('#message')
-      $('<div id = "emoji-list" style="width:400px"></div').insertAfter('#emoji')
-      appendArray(smileys, 'message')
+      if (isSceditor) {
+        $('#emoji-list').append(smileys.map((smiley) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('${smiley}');" style="cursor: pointer;">${smiley}</a>`).join(''))
+      } else {
+        $('#emoji-list').append(smileys.map((smiley) => `<a onclick="document.getElementById('message').value+='${smiley}';" style="cursor: pointer;">${smiley}</a>`).join(''))
+      }
     }
+    if (window.location.href.indexOf('comment_new.php') > -1) {
+      insertSmileys('#com_text')
+    } else if (window.location.href.indexOf('modules/newbb/') > -1) {
+      insertSmileys('#message')
+    }
+
     // TODO smiley inside sceditor
-    // if (sceditor) {
+    // if (isSceditor) {
     //   sceditor.instance(document.getElementById('message'))
     //   var newOpts = Object.assign({}, sceditor.instance(document.getElementById('message')).opts, { toolbar: 'bold' })
     //   sceditor.destroy()
     //   var newSceditor = sceditor.create(document.getElementById('message'), newOpts)
     //   // newSceditor.sourceMode(true) // TODO reuse previous sourceMode value
     // }
-  }
-
-  function appendArray (array, messageId) {
-    var list = ''
-    for (var i = 0; i < array.length; i++) {
-      list += '<a onclick="sceditor.instance(document.getElementById(\'message\')).insert(\'' + array[i] + '\');" style="cursor: pointer;">' + array[i] + '</a>'
-    }
-    $('#emoji-list').append(list)
   }
 
   // =======================
