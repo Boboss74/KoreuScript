@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.7
+// @version      0.10.8
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -304,26 +304,26 @@ Thème : \
       'https://k.img.mu/HTNEvB.gif', // :|
     ]
 
-    function insertSmileys(insertAfterId) {
-      $('<br /><div id="emoji" style="width:440px" />').insertAfter(insertAfterId)
+    function insertSmileys(textAreaId) {
+      $('<br /><div id="emoji" style="width:440px" />').insertAfter(`#${textAreaId}`)
       $('#emoji').append('<div id="emoji-list"></div>')
 
-      const isSceditor = Array.from(document.getElementsByTagName("script")).some((elem) => elem.getAttribute('src')?.includes('/sceditor'))
+      const isSceditor = Array.from(document.getElementsByTagName('script')).some((elem) => elem.getAttribute('src')?.includes('/sceditor'))
       if (isSceditor) {
-        $('#emoji-list').append(emojiObjects.map((emoji) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('${emoji.editor}');" style="cursor: pointer;">${emoji.htmlImg}</a>`).join(''))
+        $('#emoji-list').append(emojiObjects.map((emoji) => `<a onclick="sceditor.instance(document.getElementById('${textAreaId}')).insert('${emoji.editor}');" style="cursor: pointer;">${emoji.htmlImg}</a>`).join(''))
         $('#emoji-list').append('<br/>')
-        $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('[img]${url}[/img]');" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
+        $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="sceditor.instance(document.getElementById('${textAreaId}')).insert('[img]${url}[/img]');" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
       } else {
-        $('#emoji-list').append(emojiObjects.map((emoji) => `<a onclick="document.getElementById('message').value+='${emoji.editor}';" style="cursor: pointer;">${emoji.htmlImg}</a>`).join(''))
+        $('#emoji-list').append(emojiObjects.map((emoji) => `<a onclick="document.getElementById('${textAreaId}').value+='${emoji.editor}';" style="cursor: pointer;">${emoji.htmlImg}</a>`).join(''))
         $('#emoji-list').append('<br/>')
-        $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="document.getElementById('message').value+='[img]${url}[/img]';" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
+        $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="document.getElementById('${textAreaId}').value+='[img]${url}[/img]';" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
       }
     }
 
-    if (window.location.href.indexOf('comment_new.php') > -1) {
-      insertSmileys('#com_text')
-    } else if (window.location.href.indexOf('modules/newbb/') > -1) {
-      insertSmileys('#message')
+    if (window.location.href.includes('/comment_new.php') || window.location.href.includes('/comment_reply.php')) {
+      insertSmileys('com_text')
+    } else if (window.location.href.includes('modules/newbb/')) {
+      insertSmileys('message')
     }
   }
 
