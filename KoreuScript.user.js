@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.6
+// @version      0.10.7
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -265,11 +265,14 @@ Thème : \
   // Ajoute les emoji si l'option est cochée
   if (CheckEmoji) {
     const emojis = [
-      '😀', '😁', '😂', '😃', '😄', '😅', '😆', '😇', '😈', '😉', '😊', '😋', '😌', '😍', '😎', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
-      '😗', '😘', '😙', '😚', '😛', '😜', '😝', '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😦', '😧', '😨', '😩', '😪', '😫', '😬', '😭',
-      '😮', '😯', '😰', '😱', '😲', '😳', '😴', '😵', '😶', '😷', '😸', '😹', '😺', '😻', '😼', '😽', '😾', '😿', '🙀', '🙁', '🙂', '🙃', '🙄',
-    ];
-
+      '😀', '😁', '😂', '😃', '😄', '😅', '😆', '😇', '😈', '😉', '😊', '😋', '😍', '😎', '😏', '😐', '😑', '😒',
+      '😓', '😔', '😕', '😖', '😘', '😙', '😛', '😜', '😝', '😞', '😟', '😠', '😡', '😢', '😤', '😥', '😦', '😧',
+      '😨', '😩', '😫', '😬', '😭', '😮', '😰', '😱', '😲', '😳', '😴', '😵', '😶', '😷', '🙁', '🙂', '🙃', '🙄',
+    ]
+    const emojiObjects = emojis.map((emoji) => emoji.codePointAt(0).toString(16)).map((emojiHexaCode) => ({
+      htmlImg: `<img class="emojione" alt="&#x${emojiHexaCode};" src="https://cdn.jsdelivr.net/emojione/assets/4.0/png/64/${emojiHexaCode}.png"/>`,
+      editor: `&#x${emojiHexaCode};`,
+    }))
     const smileyUrls = [
       // from https://www.developpez.net/forums/misc.php
       'https://k.img.mu/jV5loi.gif', // :D
@@ -286,7 +289,6 @@ Thème : \
       'https://k.img.mu/J1BJ8d.gif', // :mrgreen:
       'https://k.img.mu/AMD9KG.gif', // :aie:
       'https://k.img.mu/oHMHSq.gif', // :mouarf:
-      'https://k.img.mu/f3skPM.gif', // :zoubi:
       'https://k.img.mu/QoQpnW.gif', // :calim2:
       'https://k.img.mu/75D9kF.gif', // :ptdr:
       'https://k.img.mu/cq9Ceq.gif', // :weird:
@@ -300,19 +302,19 @@ Thème : \
       'https://k.img.mu/6JDGXd.gif', // :idea:
       'https://k.img.mu/ZscyfJ.gif', // :arrow:
       'https://k.img.mu/HTNEvB.gif', // :|
-    ];
+    ]
 
     function insertSmileys(insertAfterId) {
-      $('<br id="emoji">').insertAfter(insertAfterId)
-      $('<div id = "emoji-list" style="width:400px"></div').insertAfter('#emoji')
+      $('<br /><div id="emoji" style="width:440px" />').insertAfter(insertAfterId)
+      $('#emoji').append('<div id="emoji-list"></div>')
 
       const isSceditor = Array.from(document.getElementsByTagName("script")).some((elem) => elem.getAttribute('src')?.includes('/sceditor'))
       if (isSceditor) {
-        $('#emoji-list').append(emojis.map((emoji) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('${emoji}');" style="cursor: pointer;">${emoji}</a>`).join(''))
+        $('#emoji-list').append(emojiObjects.map((emoji) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('${emoji.editor}');" style="cursor: pointer;">${emoji.htmlImg}</a>`).join(''))
         $('#emoji-list').append('<br/>')
         $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('[img]${url}[/img]');" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
       } else {
-        $('#emoji-list').append(emojis.map((emoji) => `<a onclick="document.getElementById('message').value+='${emoji}';" style="cursor: pointer;">${emoji}</a>`).join(''))
+        $('#emoji-list').append(emojiObjects.map((emoji) => `<a onclick="document.getElementById('message').value+='${emoji.editor}';" style="cursor: pointer;">${emoji.htmlImg}</a>`).join(''))
         $('#emoji-list').append('<br/>')
         $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="document.getElementById('message').value+='[img]${url}[/img]';" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
       }

@@ -22,6 +22,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.10.7** : Apparence des émojis fidèles à ceux de Koreus (emojione 4)
  - **0.10.6** : Ajout de smileys
  - **0.10.5** : Fix: Emojis désormais utilisables dans l'éditeur en mode édition rapide
  - **0.10.4** : Fix: Hauteur des videos twitter dans la section videos
