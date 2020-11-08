@@ -22,6 +22,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.10.6** : Ajout de smileys
  - **0.10.5** : Fix: Emojis désormais utilisables dans l'éditeur en mode édition rapide
  - **0.10.4** : Fix: Hauteur des videos twitter dans la section videos
  - **0.10.2** : Fix: Affiche un message pour l'affichage d'un tweet supprimé
@@ -30,7 +31,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  - **0.9.12** : (Appli Koreus) Score en couleur dans les chats de team ([Aperçu](https://k.img.mu/1hGVFY.png))
  - **0.9.11** : (Appli Koreus) Liens cliquables dans les chats de team
  - **0.9.10** : Fix: champ destinataire de la messagerie ([Cf. ticket](https://www.koreus.com/modules/newbb/topic187711.html))
- - **0.9.8** : Fix: les smileys fonctionnent désormais avec le nouvel éditeur
+ - **0.9.8** : Fix: les emojis fonctionnent désormais avec le nouvel éditeur
  - **0.9.7** : Possibilité d'afficher les scores négatifs des votes (Boboss)
  - **0.9.6** : Plus possible de récupèrer la liste des votants: fonctionnalité supprimée
  - **0.9.5** : Possibilité de Blacklister des utilisateurs en cliquant sur le petit émoji qui s'affiche lorsqu'on survole le pseudo. ([-flo-, Boboss](https://github.com/Boboss74/KoreuScript/pull/1))

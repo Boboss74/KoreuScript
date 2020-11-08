@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.5
+// @version      0.10.6
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -31,12 +31,6 @@
 
 /* eslint-env browser, jquery, greasemonkey */
 /* eslint no-multi-str: 0 */
-
-var smileys = [
-  '😀', '😁', '😂', '😃', '😄', '😅', '😆', '😇', '😈', '😉', '😊', '😋', '😌', '😍', '😎', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
-  '😗', '😘', '😙', '😚', '😛', '😜', '😝', '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😦', '😧', '😨', '😩', '😪', '😫', '😬', '😭',
-  '😮', '😯', '😰', '😱', '😲', '😳', '😴', '😵', '😶', '😷', '😸', '😹', '😺', '😻', '😼', '😽', '😾', '😿', '🙀', '🙁', '🙂', '🙃', '🙄'
-];
 
 (function () {
   'use strict'
@@ -270,30 +264,65 @@ Thème : \
 
   // Ajoute les emoji si l'option est cochée
   if (CheckEmoji) {
-    const isSceditor = Array.from(document.getElementsByTagName("script")).some((elem) => elem.getAttribute('src')?.includes('/sceditor'))
+    const emojis = [
+      '😀', '😁', '😂', '😃', '😄', '😅', '😆', '😇', '😈', '😉', '😊', '😋', '😌', '😍', '😎', '😏', '😐', '😑', '😒', '😓', '😔', '😕', '😖',
+      '😗', '😘', '😙', '😚', '😛', '😜', '😝', '😞', '😟', '😠', '😡', '😢', '😣', '😤', '😥', '😦', '😧', '😨', '😩', '😪', '😫', '😬', '😭',
+      '😮', '😯', '😰', '😱', '😲', '😳', '😴', '😵', '😶', '😷', '😸', '😹', '😺', '😻', '😼', '😽', '😾', '😿', '🙀', '🙁', '🙂', '🙃', '🙄',
+    ];
+
+    const smileyUrls = [
+      // from https://www.developpez.net/forums/misc.php
+      'https://k.img.mu/jV5loi.gif', // :D
+      'https://k.img.mu/hxs0Wi.gif', // :)
+      'https://k.img.mu/qoeVWQ.gif', // :(
+      'https://k.img.mu/VKB7AE.gif', // 8O
+      'https://k.img.mu/qoMze9.gif', // :?
+      'https://k.img.mu/6jVA2U.gif', // 8-)
+      'https://k.img.mu/R4CMKu.gif', // :lol:
+      'https://k.img.mu/lVeoSj.gif', // :P
+      'https://k.img.mu/tkbRPL.gif', // :oops:
+      'https://k.img.mu/kaNAPP.gif', // :roll:
+      'https://k.img.mu/Q9PwYc.gif', // ;)
+      'https://k.img.mu/J1BJ8d.gif', // :mrgreen:
+      'https://k.img.mu/AMD9KG.gif', // :aie:
+      'https://k.img.mu/oHMHSq.gif', // :mouarf:
+      'https://k.img.mu/f3skPM.gif', // :zoubi:
+      'https://k.img.mu/QoQpnW.gif', // :calim2:
+      'https://k.img.mu/75D9kF.gif', // :ptdr:
+      'https://k.img.mu/cq9Ceq.gif', // :weird:
+      'https://k.img.mu/cPpkqP.gif', // :-o
+      'https://k.img.mu/FNUGPN.gif', // :x
+      'https://k.img.mu/dp9DZH.gif', // :cry:
+      'https://k.img.mu/b56nbP.gif', // :evil:
+      'https://k.img.mu/Bg2GnX.gif', // :twisted:
+      'https://k.img.mu/5QfJzC.gif', // :!:
+      'https://k.img.mu/upaPUj.gif', // :question:
+      'https://k.img.mu/6JDGXd.gif', // :idea:
+      'https://k.img.mu/ZscyfJ.gif', // :arrow:
+      'https://k.img.mu/HTNEvB.gif', // :|
+    ];
+
     function insertSmileys(insertAfterId) {
       $('<br id="emoji">').insertAfter(insertAfterId)
       $('<div id = "emoji-list" style="width:400px"></div').insertAfter('#emoji')
+
+      const isSceditor = Array.from(document.getElementsByTagName("script")).some((elem) => elem.getAttribute('src')?.includes('/sceditor'))
       if (isSceditor) {
-        $('#emoji-list').append(smileys.map((smiley) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('${smiley}');" style="cursor: pointer;">${smiley}</a>`).join(''))
+        $('#emoji-list').append(emojis.map((emoji) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('${emoji}');" style="cursor: pointer;">${emoji}</a>`).join(''))
+        $('#emoji-list').append('<br/>')
+        $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="sceditor.instance(document.getElementById('message')).insert('[img]${url}[/img]');" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
       } else {
-        $('#emoji-list').append(smileys.map((smiley) => `<a onclick="document.getElementById('message').value+='${smiley}';" style="cursor: pointer;">${smiley}</a>`).join(''))
+        $('#emoji-list').append(emojis.map((emoji) => `<a onclick="document.getElementById('message').value+='${emoji}';" style="cursor: pointer;">${emoji}</a>`).join(''))
+        $('#emoji-list').append('<br/>')
+        $('#emoji-list').append(smileyUrls.map((url) => `<a onclick="document.getElementById('message').value+='[img]${url}[/img]';" style="cursor: pointer;"><img src="${url}"/></a>`).join(''))
       }
     }
+
     if (window.location.href.indexOf('comment_new.php') > -1) {
       insertSmileys('#com_text')
     } else if (window.location.href.indexOf('modules/newbb/') > -1) {
       insertSmileys('#message')
     }
-
-    // TODO smiley inside sceditor
-    // if (isSceditor) {
-    //   sceditor.instance(document.getElementById('message'))
-    //   var newOpts = Object.assign({}, sceditor.instance(document.getElementById('message')).opts, { toolbar: 'bold' })
-    //   sceditor.destroy()
-    //   var newSceditor = sceditor.create(document.getElementById('message'), newOpts)
-    //   // newSceditor.sourceMode(true) // TODO reuse previous sourceMode value
-    // }
   }
 
   // =======================
