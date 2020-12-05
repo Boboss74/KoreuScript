@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.9
+// @version      0.10.10
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -501,6 +501,9 @@ padding-left:200px;\
       }
       if (pourcent > 50) {
         VoteID.style.color = '#00E676'
+      }
+      if (pourcent === 50) {
+        VoteID.style.color = '#F1D402'
       }
     }
 
