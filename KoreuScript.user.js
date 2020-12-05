@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.8
+// @version      0.10.9
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -40,20 +40,18 @@
   }
 
   GM_addStyle('\
-  .checkboxks {display: none;}\
-  .checkboxks+label { position: relative; padding-left: 55px; cursor: pointer; }\
-    .checkboxks+label::before, .checkboxks+label::after { content: ""; position: absolute; border: 1px solid #777; transition: background-color .2s; }\
-    .checkboxks+label::before { left: 0; top: -3px; width: 45px; height: 20px; background: #DDDDDD; border-radius: 15px; }\
-    .checkboxks+label::after { left: 5px; top: 2px; width: 10px; height: 10px; background: #461B1B; border-radius: 50%; }\
-  .checkboxks:checked+label::before {background: #34495E;}\
-  .checkboxks:checked+label::after { background: #39D2B4; left: 30px; }\
-  .checkboxks+label .ui { position: absolute; left: 30px; font-size: 14px; font-weight: bold; transition: all .2s; }\
-  .checkboxks:checked+label .ui {left: 6px;}\
-  .checkboxks+label .ui::after { content: "✖"; left: 28px; }\
-  .checkboxks:checked+label .ui::after { content: "✓"; color: #39D2B4; }\
+   .checkboxks {display: none;}\
+   .checkboxks+label { position: relative; padding-left: 55px; cursor: pointer; }\
+      .checkboxks+label::before, .checkboxks+label::after { content: ""; position: absolute; border: 1px solid #777; transition: background-color .2s; }\
+      .checkboxks+label::before { left: 0; top: -3px; width: 45px; height: 20px; background: #DDDDDD; border-radius: 15px; }\
+      .checkboxks+label::after { left: 5px; top: 2px; width: 10px; height: 10px; background: #461B1B; border-radius: 50%; }\
+   .checkboxks:checked+label::before {background: #34495E;}\
+   .checkboxks:checked+label::after { background: #39D2B4; left: 30px; }\
+   .checkboxks+label .ui { position: absolute; left: 30px; font-size: 14px; font-weight: bold; transition: all .2s; }\
+   .checkboxks:checked+label .ui {left: 6px;}\
+   .checkboxks+label .ui::after { content: "✖"; left: 28px; }\
+   .checkboxks:checked+label .ui::after { content: "✓"; color: #39D2B4; }\
 ')
-
-  GM_addStyle('.top {position: fixed;width: auto;top: 0;left: 0;right: 0;z-index: 1000;font-size: .9375rem;}')
 
   // CSS des skins
   var CSSLook = 'td#leftcolumn div.blockTitle{color:#306;background:linear-gradient(#fbe38b,#fecc53);padding:4px 3px}td#usermenu{padding:0}td#leftcolumn div.blockContent{padding:0}td#usermenu a{transition:background .3s;padding:2px 0 2px 6px;border-right:0;border-color:#ccc}td#leftcolumn div.blockContent{font-size:10px}td#mainmenu{padding:0}td#mainmenu a{transition:background .3s;padding:2px 0 2px 6px;border-right:0}td#mainmenu a.menuMain{border-right:0;padding-left:6px}td#mainmenu a.menuTop{border-right:0;border-bottom:1px solid #ccc;padding-left:6px}td#mainmenu a.menuSub{border-right:0;background-color:#E0DFE7;border-left:10px solid #ccc;border-color:#ccc;padding-left:8px}td#usermenu a:hover{background-color:#FFF;box-shadow:0 0 5px 3px rgba(0,0,0,0.2)}td#mainmenu a.menuSub:hover,a.menuTop:hover,a.menuMain:hover{background-color:#FFF;box-shadow:0 0 5px 3px rgba(0,0,0,0.2)}td#leftcolumn div.blockContent ul{padding:0;margin:0}td#leftcolumn div.blockContent li{margin:0;transition:background .3s;padding:2px 0 2px 6px;border-bottom:1px solid #ccc;list-style:none}td#leftcolumn div.blockContent li:hover{background-color:#FFF;box-shadow:0 0 5px 3px rgba(0,0,0,0.2)}td#centercolumn div#content table.outer tbody tr.odd td{vertical-align:middle}td#centercolumn div#content table.outer tbody tr.even td{vertical-align:middle}table.index_category tbody .head{background:linear-gradient(#BEBEE4,#9A9ACE);font-weight:700;box-shadow:0 2px 6px 0 rgba(0,0,0,0.15);height:25px}table.index_category td{padding:3px;vertical-align:middle}.item{margin-left:10px}.itemFoot{margin-left:10px}td[width="4%"],td[valign="middle"]{vertical-align:middle}table.index_category{margin-top:0;margin-bottom:0}td#centercolumn div#content div#cat_1{background-color:#fff}div[style="margin-left: auto; margin-right: auto;text-align:center; width:500px"]{margin-left:auto!important;margin-right:20px!important;text-align:right!important;width:500px!important}select{background-color:#FFF;border-top-left-radius:4px;box-shadow:0 2px 6px 0 rgba(0,0,0,0.15);z-index:1;border:0!important;cursor:pointer}div.dropdown .menu,div.dropdown .userbar{padding-left:0;text-align:center}table.outer > tbody > tr > th > div{padding-left:10px}#mainoption option{box-shadow:0 1px 6px 0 rgba(0,0,0,0.15);padding:5px}table.outer{border:0}table.outer > tbody > tr:nth-child(4){box-shadow:0 6px 4px 0 rgba(0,0,0,0.15)}table.outer > tbody > tr:nth-child(1) > th{padding-right:10px}div#content{margin-left:10px}#forumoption option{box-shadow:0 1px 6px 0 rgba(0,0,0,0.15);padding:3px 5px}#content > div:nth-child(5){padding-left:20px}#content div.dropdown #topicoption{margin-left:20px}#content > div:nth-child(13){padding-left:20px}table.outer > tbody > tr:nth-child(4){border-bottom-right-radius:15px;border-bottom-left-radius:15px}table.outer > tbody > tr{border-bottom-right-radius:0;border-bottom-left-radius:0}table.outer > tbody > tr:nth-child(4) > td:nth-child(1){border-bottom-left-radius:15px}table.outer > tbody > tr:nth-child(4) > td:nth-child(2){border-bottom-right-radius:15px;padding-right:10px}table.outer > tbody > tr:nth-child(1) > th:nth-child(1){border-top-left-radius:15px}table.outer > tbody > tr:nth-child(1) > th:nth-child(3){border-top-right-radius:15px}td#centercolumn div#content table.outer tbody tr.odd td{border-bottom-right-radius:0;border-bottom-left-radius:0}td#centercolumn div#content table.outer tbody tr.odd{border-bottom-right-radius:0;border-bottom-left-radius:0;box-shadow:none}span.itemPoster{padding:5px 1px 4px 5px;margin-right:5px;background-color:#E0DFE7;border-top-left-radius:10px;border-top-right-radius:10px}div.item{border-left:1px solid #c8c8c8;border-right:1px solid #c8c8c8;border-top-left-radius:10px;border-top-right-radius:10px;border-bottom-width:1px;border-bottom-color:#E0DFE7}div.itemHead{border-top-left-radius:10px;border-top-right-radius:10px;border-top-width:1px}div.item > div > h1{padding-left:10px}div.itemFoot{border-bottom-left-radius:10px;border-bottom-right-radius:10px;border-bottom-width:1px;box-shadow:0 6px 4px 0 rgba(0,0,0,0.15);background-color:#fff}div.itemFoot > span{padding-right:10px}#centercolumn{padding-right:10px}div.item > p{padding-left:10px}div.item > p > a > img{background-color:#9A9ACE;display:inline-block;border:0;border-radius:4px;padding:5px;transition:.3s}div.item > p > a > img:hover{box-shadow:0 0 2px 1px rgba(0,0,0,0.5);background-color:#fff}div#content{padding:0}#subject_pre,#messageColor,#messageFont,#messageSize,#newbb_form,select[name="add"],#$dates_msg,#limit{box-shadow:0 1px 6px 0 rgba(0,0,0,0.15);padding:2px 5px;border-top-left-radius:0}input[type="text"],textarea{box-shadow:0 2px 6px 0 rgba(0,0,0,0.15);z-index:1;border:0!important;min-height:21px}input[type="checkbox"]{box-shadow:0 2px 6px 0 rgba(0,0,0,0.15);z-index:1;border:0!important;cursor:pointer}input[type="submit"],input[type="button"],input[type="reset"]{min-height:21px;box-shadow:0 2px 6px 0 rgba(0,0,0,0.15);z-index:1;border:0!important;color:#306;background-color:#FFF;cursor:pointer}input[type="submit"]:hover,input[type="button"]:hover,input[type="reset"]:hover{box-shadow:0 2px 2px 0 rgba(0,0,0,0.5);background:none;background-color:#FFF}input[value="Recherche"],[value="Rechercher"],[value="Valider"],[value="Ok !"],[value="Ok"]{background:linear-gradient(#fbe38b,#fecc53);font-weight:700;cursor:pointer}input#contents_submit:hover,input[value="Recherche"]:hover,input[value="Rechercher"]:hover,input[value="Valider"]:hover,input[value="Ok !"]:hover,input[value="Ok"]:hover{background:linear-gradient(#fbe38b,#fecc53)}input#move,input#lu,input#nlu,input#del,input[value="?"],input[name="sa"],input[value="Citation"],input[value="Réponse Rapide"],input[value="Vider"],input[value="Prévisualiser"],input[value="Soumettre"],input[value="Ajouter"]{background:none;background-color:#FFF;margin-bottom:2px;cursor:pointer}td#centercolumn div form input[name="sa"]{background:linear-gradient(#fbe38b,#fecc53);font-weight:700;font-size:12px}input#reply{background:linear-gradient(#fbe38b,#fecc53);margin-bottom:2px;cursor:pointer;font-weight:700}'
@@ -112,7 +110,7 @@
   // ==============================
 
   // Ajoute le menu ==================
-  $('#leftcolumn').prepend('<div id="ScriptSection" class="blockContent"><button id="btnScript" type="button" style="width:100%">▼ Script Option</button></div>')
+  $('#leftcolumn').prepend('<div id="ScriptSection" class="blockContent"><button id="btnScript" type="button" style="width:100%">▼ KoreuScript Options</button></div>')
 
   $('#ScriptSection').append('<div id="MenuScript" style="display:none;padding-bottom:5px;">\
 <div id="Theme" style="padding:5px">\
@@ -123,12 +121,12 @@ Thème : \
 <option value="Dark">Koreus Dark</option>\
 </select> \
 </div>\
-<p style="padding-left:5px"><input name="ReponseCheck" id="Check_R_ID" class="checkboxks" type="checkbox"><label  name="ReponseCheck" for="Check_R_ID"><span class="ui"></span>Lien Message</label></p>\
-<p style="padding-left:5px"><input name="PageCheck" class="checkboxks" id="Check_P_ID" type="checkbox"><label  name="PageCheck" for="Check_P_ID"><span class="ui"></span>Défilement</label></p>\
-<p style="padding-left:5px"><input name="RapideStyleCheck" class="checkboxks" id="Check_RR_ID" type="checkbox"><label  name="RapideStyleCheck" for="Check_RR_ID"><span class="ui"></span>Editeur Rapide</label></p>\
-<p style="padding-left:5px"><input name="EmojiCheck" class="checkboxks" id="Check_Emoji_ID" type="checkbox"><label  name="EmojiCheck" for="Check_Emoji_ID"><span class="ui"></span>Emoji</label></p>\
-<p style="padding-left:5px"><input name="VoteColor" class="checkboxks" id="Check_VoteColor_ID" type="checkbox"><label  name="VoteColor" for="Check_VoteColor_ID"><span class="ui"></span>Couleur Vote</label></p>\
-<p style="padding-left:5px"><input name="RealVote" class="checkboxks" id="Check_RealVote_ID" type="checkbox"><label  name="RealVote" for="Check_RealVote_ID"><span class="ui"></span>Score Vote Réel</label></p>\
+<p style="padding-left:5px"><input name="ReponseCheck" id="Check_R_ID" class="checkboxks" type="checkbox"><label name="ReponseCheck" for="Check_R_ID"><span class="ui"></span>Lien Message</label></p>\
+<p style="padding-left:5px"><input name="PageCheck" class="checkboxks" id="Check_P_ID" type="checkbox"><label name="PageCheck" for="Check_P_ID"><span class="ui"></span>Défilement</label></p>\
+<p style="padding-left:5px"><input name="RapideStyleCheck" class="checkboxks" id="Check_RR_ID" type="checkbox"><label name="RapideStyleCheck" for="Check_RR_ID"><span class="ui"></span>Editeur Rapide</label></p>\
+<p style="padding-left:5px"><input name="EmojiCheck" class="checkboxks" id="Check_Emoji_ID" type="checkbox"><label name="EmojiCheck" for="Check_Emoji_ID"><span class="ui"></span>Emoji</label></p>\
+<p style="padding-left:5px"><input name="VoteColor" class="checkboxks" id="Check_VoteColor_ID" type="checkbox"><label name="VoteColor" for="Check_VoteColor_ID"><span class="ui"></span>Couleur Vote</label></p>\
+<p style="padding-left:5px"><input name="RealVote" class="checkboxks" id="Check_RealVote_ID" type="checkbox"><label name="RealVote" for="Check_RealVote_ID"><span class="ui"></span>Score Vote Réel</label></p>\
 </div>')
   // ==============================
 
@@ -142,10 +140,10 @@ Thème : \
   function Ouverture (idName) {
     var varName = document.getElementById(idName)
     if (varName.style.display !== 'none') {
-      $('#btnScript').html('▼ Script Option')
+      $('#btnScript').html('▼ KoreuScript Options')
       varName.style.display = 'none'
     } else {
-      $('#btnScript').html('▲ Script Option')
+      $('#btnScript').html('▲ KoreuScript Options')
       varName.style.display = 'block'
     }
   }
@@ -445,10 +443,7 @@ padding-left:200px;\
       }
 
       if (this.id === 'messageColor') {
-        // this.class = "ok";
-        // insertAfter(this)
-        // this.style.backgroundColor = "#"+  $(this).val();
-        AddQuote('[color=' + $(this).val() + ']', '[/color]')
+         AddQuote('[color=' + $(this).val() + ']', '[/color]')
       }
     })
   }
