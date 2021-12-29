@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true,
+    "jquery": true,
+    "es2020": true,
+    "greasemonkey": true
+  },
+  "extends": "standard",
+  "rules": {
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
+    "func-style": [
+      "error",
+      "declaration"
+    ],
+    "no-multi-str": "off",
+    "prefer-arrow-callback": "error"
+  }
+}

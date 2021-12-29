@@ -1,0 +1,21 @@
+{
+  "name": "koreuscript",
+  "version": "0.10.10",
+  "description": "Add new features to koreus.com",
+  "main": "KoreuScript.user.js",
+  "scripts": {
+    "lint": "eslint KoreuScript.user.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Boboss74/KoreuScript.git"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0"
+  }
+}
