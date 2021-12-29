@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.10
+// @version      0.10.11
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -58,6 +58,7 @@
   let checkEmoji = GM_getValue('CheckEmojiSave') === undefined ? false : GM_getValue('CheckEmojiSave')
   let voteColor = GM_getValue('VoteColorSave') === undefined ? false : GM_getValue('VoteColorSave')
   let realVote = GM_getValue('RealVoteSave') === undefined ? true : GM_getValue('RealVoteSave')
+  let commentsBelowVideo = GM_getValue('commentsBelowVideo') === undefined ? true : GM_getValue('commentsBelowVideo')
   // ===================
 
   // Change le Theme =================
@@ -119,6 +120,7 @@ Thème : \
 <p style="padding-left:5px"><input name="EmojiCheck" class="checkboxks" id="Check_Emoji_ID" type="checkbox"><label name="EmojiCheck" for="Check_Emoji_ID"><span class="ui"></span>Emoji</label></p>\
 <p style="padding-left:5px"><input name="VoteColor" class="checkboxks" id="Check_VoteColor_ID" type="checkbox"><label name="VoteColor" for="Check_VoteColor_ID"><span class="ui"></span>Couleur Vote</label></p>\
 <p style="padding-left:5px"><input name="RealVote" class="checkboxks" id="Check_RealVote_ID" type="checkbox"><label name="RealVote" for="Check_RealVote_ID"><span class="ui"></span>Score Vote Réel</label></p>\
+<p style="padding-left:5px"><input name="CommentsBelowVideo" class="checkboxks" id="comments-below-video" type="checkbox"><label name="CommentsBelowVideo" for="comments-below-video"><span class="ui"></span>Commentaires sous vidéo</label></p>\
 </div>')
   // ==============================
 
@@ -147,6 +149,7 @@ Thème : \
   $('#Check_Emoji_ID').prop('checked', checkEmoji)
   $('#Check_VoteColor_ID').prop('checked', voteColor)
   $('#Check_RealVote_ID').prop('checked', realVote)
+  $('#comments-below-video').prop('checked', commentsBelowVideo)
 
   $('select[name="theme"]').change(function () {
     GM_setValue('ThemeSave', this.value)
@@ -185,6 +188,12 @@ Thème : \
   $('#Check_RealVote_ID').change(() => {
     realVote = !realVote
     GM_setValue('RealVoteSave', realVote)
+    location.reload()
+  })
+
+  $('#comments-below-video').change(() => {
+    commentsBelowVideo = !commentsBelowVideo
+    GM_setValue('commentsBelowVideo', commentsBelowVideo)
     location.reload()
   })
   // ==========================
@@ -529,6 +538,76 @@ padding-left:200px;\
 
       vote.innerText = Math.round(totalVote * ((pourcentPositif - 50) * 2) / 100)
     }
+  }
+
+  // Comments below video ######################################################
+  // Boboss
+
+  try {
+    if (commentsBelowVideo && window.location.pathname.startsWith('/video/')) {
+      function getParentElements (doc, selectors) {
+        let element = doc.querySelector(selectors)
+        const parentElements = []
+        while (element) {
+          parentElements.unshift(element)
+          element = element.parentNode
+        }
+        return parentElements
+      }
+
+      function hideAll (doc) {
+        doc.querySelectorAll('body *').forEach((e) => { e.hidden = true })
+      }
+
+      function show (doc, selectors) {
+        getParentElements(doc, selectors).filter((e) => e.hidden === true).forEach((e) => { e.hidden = false })
+        doc.querySelectorAll(selectors + ' *').forEach((e) => { e.hidden = false })
+      }
+
+      function iframeArticleLoaded (iframeElem) {
+        hideAll(iframeElem.contentWindow.document)
+        show(iframeElem.contentWindow.document, '#centercolumn > div:nth-of-type(5)')
+        resizeIframe(iframeElem)
+        iframeAutoResize(iframeElem)
+      }
+
+      function resizeIframe (iframe) {
+        iframe.height = iframe.contentWindow.document.body.offsetHeight + 'px'
+      }
+
+      function iframeAutoResize (iframe) {
+        let watcher
+        function watch () {
+          cancelAnimationFrame(watcher)
+          if (iframe.height !== iframe.contentWindow.document.body.scrollHeight + 'px') {
+            resizeIframe(iframe)
+          }
+          watcher = requestAnimationFrame(watch)
+        }
+        watcher = window.requestAnimationFrame(watch)
+      }
+
+      const urlIframe = document.querySelector('a.btn-primary').getAttribute('href')
+      if (urlIframe) {
+        const iframeArticle = document.createElement('iframe')
+        iframeArticle.setAttribute('id', 'iframeArticle')
+        iframeArticle.setAttribute('class', 'col-md-12 col-lg-12')
+        iframeArticle.setAttribute('src', urlIframe)
+        iframeArticle.setAttribute('scrolling', 'no')
+        iframeArticle.setAttribute('frameborder', '0')
+        iframeArticle.style.width = '1138px'
+
+        document.querySelector('div.row > div.col-md-8.col-lg-8').setAttribute('class', 'col-md-12 col-lg-12')
+        document.querySelector('div.row > div.col-md-4.col-lg-4').hidden = true
+        document.querySelector('div.row').appendChild(iframeArticle)
+
+        iframeArticle.addEventListener('load', () => {
+          iframeArticleLoaded(iframeArticle)
+        })
+      }
+    }
+  } catch (error) {
+    console.error('[Koreuscript] Error while applying commentsUnderVideo: ' + error)
   }
 
   // User Blacklist ##############################################

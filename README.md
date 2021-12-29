@@ -10,6 +10,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Afficher score négatifs des votes
  * Blacklister un utilisateur
  * Changement de thème
+ * Afficher les commentaires sous les vidéos en article
 
 ## Installation
 
@@ -22,6 +23,7 @@ KoreuScript ajoute de fonctionnalités sur le site [Koreus](https://koreus.com)
  * Topic du script sur le forum Koreus: https://www.koreus.com/modules/newbb/topic165924.html
 
 ## Changelog
+ - **0.10.11** : Affichage des commentaires sous les videos en article (Boboss)
  - **0.10.10** : Ajout d'une couleur de vote lorsque le score est à 0 et qu'il y a plusieurs votes (AymericCaron)
  - **0.10.9** : Nettoyage mineur du code
  - **0.10.8** : Fonctionnalité des smileys disponible dans la section article
