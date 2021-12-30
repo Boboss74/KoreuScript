@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.11
+// @version      0.10.13
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -125,7 +125,7 @@ Thème : \
   // ==============================
 
   // Ouverture/Fermeture du menu
-  function toogleMenu (arg) {
+  function toogleMenu () {
     const elem = document.getElementById('menu-script')
     if (elem.style.display !== 'none') {
       $('#ks-options-button').html('▼ KoreuScript Options')
@@ -354,7 +354,7 @@ padding-left:200px;\
   if (bMessage) {
     const imageElements = document.getElementsByTagName('img')
     let imageElementBold
-    let imageElementitalic
+    let imageElementItalic
     let imageElementUnderline
     let imageElementLinethrough
     for (const imageElement of imageElements) {
@@ -362,7 +362,7 @@ padding-left:200px;\
         imageElementBold = imageElement
       }
       if (imageElement.alt === 'italic') {
-        imageElementitalic = imageElement
+        imageElementItalic = imageElement
       }
       if (imageElement.alt === 'underline') {
         imageElementUnderline = imageElement
@@ -373,14 +373,14 @@ padding-left:200px;\
     }
 
     // ajoute les fonctions sur les boutons
-    if (imageElementBold != null && imageElementitalic != null && imageElementUnderline != null && imageElementLinethrough != null) {
+    if (imageElementBold != null && imageElementItalic != null && imageElementUnderline != null && imageElementLinethrough != null) {
       imageElementBold.removeAttribute('onclick')
       imageElementBold.addEventListener('click', () => {
         AddQuote('[b]', '[/b]')
       })
 
-      imageElementitalic.removeAttribute('onclick')
-      imageElementitalic.addEventListener('click', () => {
+      imageElementItalic.removeAttribute('onclick')
+      imageElementItalic.addEventListener('click', () => {
         AddQuote('[i]', '[/i]')
       })
 
@@ -555,20 +555,13 @@ padding-left:200px;\
         return parentElements
       }
 
-      function hideAll (doc) {
-        doc.querySelectorAll('body *').forEach((e) => { e.hidden = true })
+      function hide (doc, selectors) {
+        doc.querySelectorAll(selectors).forEach((e) => { e.hidden = true })
       }
 
       function show (doc, selectors) {
         getParentElements(doc, selectors).filter((e) => e.hidden === true).forEach((e) => { e.hidden = false })
         doc.querySelectorAll(selectors + ' *').forEach((e) => { e.hidden = false })
-      }
-
-      function iframeArticleLoaded (iframeElem) {
-        hideAll(iframeElem.contentWindow.document)
-        show(iframeElem.contentWindow.document, '#centercolumn > div:nth-of-type(5)')
-        resizeIframe(iframeElem)
-        iframeAutoResize(iframeElem)
       }
 
       function resizeIframe (iframe) {
@@ -602,7 +595,18 @@ padding-left:200px;\
         document.querySelector('div.row').appendChild(iframeArticle)
 
         iframeArticle.addEventListener('load', () => {
-          iframeArticleLoaded(iframeArticle)
+          const iframeDocument = iframeArticle.contentWindow.document
+
+          // hide all
+          hide(iframeDocument, 'body *')
+          // unhide comments
+          show(iframeDocument, '#centercolumn > div:nth-of-type(5)')
+          // open all links within iframe in a new page
+          iframeDocument.querySelectorAll('a').forEach((e) => { e.setAttribute('target', '_blank') })
+
+          // manage iframe size
+          resizeIframe(iframeArticle)
+          iframeAutoResize(iframeArticle)
         })
       }
     }
