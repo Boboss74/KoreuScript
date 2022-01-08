@@ -590,8 +590,6 @@ padding-left:200px;\
         iframeArticle.setAttribute('frameborder', '0')
         iframeArticle.style.width = '1138px'
 
-        document.querySelector('div.row > div.col-md-8.col-lg-8').setAttribute('class', 'col-md-12 col-lg-12')
-        document.querySelector('div.row > div.col-md-4.col-lg-4').hidden = true
         document.querySelector('div.row').appendChild(iframeArticle)
 
         iframeArticle.addEventListener('load', () => {
