@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KoreuScript
 // @namespace    Benissou/KoreuScript
-// @version      0.10.13
+// @version      0.10.15
 // @author       Benissou
 // @description  Amélioration du site Koreus.com
 // @homepage     https://www.koreus.com/modules/newbb/topic165924.html
@@ -580,31 +580,47 @@ padding-left:200px;\
         watcher = window.requestAnimationFrame(watch)
       }
 
-      const urlIframe = document.querySelector('a.btn-primary').getAttribute('href')
-      if (urlIframe) {
-        const iframeArticle = document.createElement('iframe')
-        iframeArticle.setAttribute('id', 'iframeArticle')
-        iframeArticle.setAttribute('class', 'col-md-12 col-lg-12')
-        iframeArticle.setAttribute('src', urlIframe)
-        iframeArticle.setAttribute('scrolling', 'no')
-        iframeArticle.setAttribute('frameborder', '0')
-        iframeArticle.style.width = '1138px'
+      let addCommmentsBelowVideoCalled = false
 
-        document.querySelector('div.row').appendChild(iframeArticle)
+      function addCommmentsBelowVideo () {
+        addCommmentsBelowVideoCalled = true
+        const urlIframe = document.querySelector('a.btn-primary').getAttribute('href')
+        if (urlIframe) {
+          const iframeArticle = document.createElement('iframe')
+          iframeArticle.setAttribute('id', 'iframeArticle')
+          iframeArticle.setAttribute('class', 'col-md-12 col-lg-12')
+          iframeArticle.setAttribute('src', urlIframe)
+          iframeArticle.setAttribute('scrolling', 'no')
+          iframeArticle.setAttribute('frameborder', '0')
+          iframeArticle.style.width = '1138px' // can be better !
 
-        iframeArticle.addEventListener('load', () => {
-          const iframeDocument = iframeArticle.contentWindow.document
+          document.querySelector('div.row').appendChild(iframeArticle)
 
-          // hide all
-          hide(iframeDocument, 'body *')
-          // unhide comments
-          show(iframeDocument, '#centercolumn > div:nth-of-type(5)')
-          // open all links within iframe in a new page
-          iframeDocument.querySelectorAll('a').forEach((e) => { e.setAttribute('target', '_blank') })
+          iframeArticle.addEventListener('load', () => {
+            const iframeDocument = iframeArticle.contentWindow.document
 
-          // manage iframe size
-          resizeIframe(iframeArticle)
-          iframeAutoResize(iframeArticle)
+            // hide all
+            hide(iframeDocument, 'body *')
+            // unhide comments
+            show(iframeDocument, '#centercolumn > div:nth-of-type(5)')
+            // open all links within iframe in a new page
+            iframeDocument.querySelectorAll('a').forEach((e) => { e.setAttribute('target', '_blank') })
+
+            // manage iframe size
+            resizeIframe(iframeArticle)
+            iframeAutoResize(iframeArticle)
+          })
+        }
+      }
+
+      if (document.visibilityState === 'visible') {
+        addCommmentsBelowVideo()
+      } else {
+        // better rendering when loaded in a new tab
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible' && !addCommmentsBelowVideoCalled) {
+            addCommmentsBelowVideo()
+          }
         })
       }
     }
